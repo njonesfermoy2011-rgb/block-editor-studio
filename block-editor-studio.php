@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Block Editor Studio
- * Plugin URI:        https://github.com/nathanaeljones/block-editor-studio
+ * Plugin URI:        https://github.com/njonesfermoy2011-rgb/block-editor-studio
  * Description:       A calmer, cleaner experience for the WordPress block editor. Lightweight UI/UX enhancements that make Gutenberg beautiful and intuitive — without replacing it, forking it, or becoming a page builder.
  * Version:           0.1.0
  * Requires at least: 6.5
@@ -12,6 +12,8 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       block-editor-studio
  * Domain Path:       /languages
+ * GitHub Plugin URI: njonesfermoy2011-rgb/block-editor-studio
+ * Primary Branch:    main
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
