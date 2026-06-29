@@ -45,7 +45,7 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 | **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **✅ verified live (WP 7.0)** |
 | R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **✅ verified live (WP 7.0)** |
 | R2 | Persistent "Add block" appender at end of content (see note) | CSS canvas + modest JS | Med | P7 | **✅ verified live (WP 7.0)** |
-| R3 | List View refresh — hover feedback + row spacing (selected row already adopts accent via R1) | Pure CSS | Low | P4 | **▶ built — awaiting live verification** |
+| R3 | List View refresh — hover feedback + row spacing (selected row already adopts accent via R1) | Pure CSS | Low | P4 | **✅ verified live (WP 7.0)** |
 | R4 | Inspector progressive disclosure — Advanced/Dimensions/Border collapsed by default | CSS + small JS | Med | P8 | todo |
 | R5 | Focus ring upgrade — WCAG 2.2 AA, branded, consistent | Pure CSS | Low | P9·P10 | todo |
 | R6 | Soften the block inserter modal — radius, shadow, calmer tabs | Pure CSS | Low | P6 | todo |
@@ -99,7 +99,9 @@ Every CSS step is verified in a live editor before the next begins — visual CS
 
 **Environment:** remote dev site `https://my-test-site.website/` (WordPress 7.0), driven via Claude-in-Chrome in the user's logged-in session.
 
-**Deploy / update loop:** the plugin is installed via Git Updater from `njonesfermoy2011-rgb/block-editor-studio` tracking the `main` branch (`GitHub Plugin URI` + `Primary Branch` headers). To push a step to the dev site: commit + push to `main`, **bump the version** in the header + `readme.txt` (so Git Updater detects the update), then run the update from Dashboard → Updates (or the Plugins screen). Verification per step: open the editor, screenshot, check the browser console for errors/warnings (zero tolerance — a wp.org review criterion).
+**Deploy / update loop:** the plugin is installed via Git Updater from `njonesfermoy2011-rgb/block-editor-studio` tracking the `main` branch (`GitHub Plugin URI` + `Primary Branch` headers). To push a step to the dev site: commit + push to `main`, **bump the version** in the header + `readme.txt` (so Git Updater detects the update), then **Settings → Git Updater → Refresh Cache**, then run the update from Dashboard → Updates. Verification per step: open the editor, screenshot, check the browser console for errors/warnings (zero tolerance — a wp.org review criterion).
+
+> **Deploy friction (observed):** the dev host intermittently throws `cURL error 35: Recv failure: Connection reset by peer` reaching GitHub, so Git Updater sometimes doesn't see the new version on the first Refresh Cache. Refresh Cache a second time (and/or "Check again" on the Updates page) — it picked up on the retry both times. Fallback if it persists: direct ZIP upload via Plugins → Add New → Upload (no GitHub dependency).
 
 **Pre-submission cleanup:** remove the `GitHub Plugin URI` and `Primary Branch` dev headers before the wp.org build (Git Updater must not shadow wp.org updates).
 
