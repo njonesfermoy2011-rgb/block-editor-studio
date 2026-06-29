@@ -30,6 +30,9 @@
 	--bes-separator: rgba(29, 36, 51, 0.08);
 	--bes-separator-strong: rgba(29, 36, 51, 0.14);
 
+	/* A calm neutral wash for hover feedback. */
+	--bes-hover-bg: rgba(29, 36, 51, 0.05);
+
 	/* Motion: short, eased, never bouncy (research Principle 8). */
 	--bes-ease: cubic-bezier(0.2, 0, 0, 1);
 	--bes-dur: 140ms;
@@ -132,6 +135,35 @@ body.bes-accent-slate {
 /* --- Secondary sidebar (List View / Inserter region): same quiet ground --- */
 .interface-interface-skeleton__secondary-sidebar {
 	border-inline-end: 1px solid var(--bes-separator);
+}
+
+/* ============================================================
+   R3 · List View refresh
+   The selected row already adopts the accent (WordPress paints it
+   with --wp-admin-theme-color, which R1 remapped). So this step
+   focuses on scannability: clearer hover feedback and a touch more
+   vertical breathing room. Selected state is left to core/accent.
+   ============================================================ */
+
+/* Smooth, calm hover feedback across the whole row. */
+.editor-list-view-sidebar .block-editor-list-view-leaf td {
+	transition: background-color var(--bes-dur) var(--bes-ease);
+}
+
+.editor-list-view-sidebar .block-editor-list-view-leaf:not( .is-selected ):hover td {
+	background-color: var(--bes-hover-bg);
+}
+
+/* A little more vertical breathing room per row. */
+.editor-list-view-sidebar .block-editor-list-view-block-contents {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.editor-list-view-sidebar .block-editor-list-view-leaf td {
+		transition: none;
+	}
 }
 
 /* ============================================================

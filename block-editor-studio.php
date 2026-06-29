@@ -3,7 +3,7 @@
  * Plugin Name:       Block Editor Studio
  * Plugin URI:        https://github.com/njonesfermoy2011-rgb/block-editor-studio
  * Description:       A calmer, cleaner experience for the WordPress block editor. Lightweight UI/UX enhancements that make Gutenberg beautiful and intuitive — without replacing it, forking it, or becoming a page builder.
- * Version:           0.2.0
+ * Version:           0.3.0
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Nathanael Jones
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BES_VERSION', '0.2.0' );
+define( 'BES_VERSION', '0.3.0' );
 define( 'BES_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BES_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
