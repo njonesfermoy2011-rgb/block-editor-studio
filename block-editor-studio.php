@@ -11,9 +11,6 @@
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       block-editor-studio
- * Domain Path:       /languages
- * GitHub Plugin URI: njonesfermoy2011-rgb/block-editor-studio
- * Primary Branch:    main
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
