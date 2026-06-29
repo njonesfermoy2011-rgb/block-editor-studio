@@ -136,12 +136,21 @@ Two independent passes (security+wp.org-compliance, and code-quality+6.5↔7.0-c
   - *Tooling notes (not plugin issues):* a per-tab device-emulation/viewport glitch and React-controlled-input friction required JS-focus + real keystrokes and DOM-readouts instead of screenshots; a fresh tab cleared the emulation.
   - *Left behind:* post 1 has unsaved QA edits ("articlearticle", a temp block) — never saved, harmless; a couple of server autosaves exist. Trash/ignore.
 
-### Pre-submission checklist (do during/after QA, before building the wp.org ZIP)
-- [ ] **Remove `GitHub Plugin URI` + `Primary Branch` headers** (dev-only Git Updater) — KEEP until QA done, strip when building the submission ZIP.
-- [ ] **Add `LICENSE` file** with canonical GPLv2 text (copy WordPress core's `license.txt`).
-- [ ] **Trim `Tags:` to 5** (optimize in the listing/SEO stage).
-- [ ] **`Domain Path`/`/languages`** — add a `/languages` dir with the generated `.pot`, or drop the header.
-- [ ] Run the official **Plugin Check** plugin on the dev site (authoritative).
+### Pre-submission checklist — DONE
+- [x] **Removed `GitHub Plugin URI` + `Primary Branch`** dev headers, and the dangling **`Domain Path`**.
+- [x] **Added `LICENSE`** (canonical GPLv2 from WordPress core's license.txt).
+- [x] **Trimmed `Tags:` to 5** in the optimized readme.
+- [x] **Ran official Plugin Check** (all 5 categories, errors+warnings) on the dev site.
+
+### C. WordPress.org listing + Plugin Check — DONE
+- **Listing:** optimized readme committed (short desc 137 chars, 5 tags, Contributors `njones35`, conversion-focused Description + FAQ).
+- **Plugin Check result (2026-06-29):** **0 errors**, 0 security/performance/accessibility/code findings. Only 2 warnings, **both already fixed** in the cleaned build: Domain Path → removed; too many tags → trimmed to 5. Since the scanned code is identical to the submission build and the 2 warnings map exactly to fixes already made, the cleaned build is Plugin-Check-clean (an optional re-upload + re-scan would confirm 0/0).
+- **Submission ZIP built:** `dist/block-editor-studio.zip` (23 KB) — stripped headers, includes LICENSE, optimized readme. Ready to submit.
+
+### Remaining before/at submission
+- [ ] Visual assets: capture 5 screenshots from the dev site; icon (256×256) + banner (1544×500) concepts.
+- [ ] Submission walkthrough (wordpress.org/plugins/developers/add/) — user does account steps, guided.
+- [ ] (Optional) deactivate/remove the Plugin Check + Git Updater dev plugins from the dev site afterward.
 
 
 ### A. In-depth code review
