@@ -120,6 +120,11 @@ Two independent passes (security+wp.org-compliance, and code-quality+6.5↔7.0-c
 - **Overruled (false positive):** reviewer said `Tested up to: 7.0` is invalid "because 7.0 doesn't exist" — that's its training-cutoff; the dev site verifiably runs WP 7.0. Kept 7.0.
 - **Accepted as-is (non-blocking):** removal toast counts nested children via `getGlobalBlockCount` (accurate if surprising); F&R live-count is O(blocks) per debounce (off hot-path); word count reads 0 for dynamic blocks; `applyAccent` reassignment is sound (self-heals via observer).
 
+### B. QA pass — in progress
+- ✅ **Zero front-end bleed CONFIRMED** — on a published post, no Block Editor Studio styles/scripts, no `bes-*` classes, no accent body class. Editor-only enqueue (incl. iframe canvas.css `is_admin()` gate) verified clean. The #1 wp.org/perf criterion passes.
+- ✅ Per-feature behavior verified during build via faithful console injection (F1 clear-format, F2 wordcount, F4 undo TOAST/SUPPRESSED, F5 find-replace markup-safety, F7 heartbeat) + R1/R2/R3/R8 live on v0.4.0.
+- ⏳ **Full live run-through of the real v0.8.0 bundle — BLOCKED on deploy.** Host↔GitHub `cURL 35` down this session; every Git Updater path (detect/refresh/branch-switch) blocked. v0.8.0 QA ZIP staged at `dist/block-editor-studio.zip` for manual upload (the browser file-upload tool rejects Claude-generated files; user must upload). Once 0.8.0 is live: confirm console-clean with all deps, and exercise each feature in the real bundle + cross-feature interaction.
+
 ### Pre-submission checklist (do during/after QA, before building the wp.org ZIP)
 - [ ] **Remove `GitHub Plugin URI` + `Primary Branch` headers** (dev-only Git Updater) — KEEP until QA done, strip when building the submission ZIP.
 - [ ] **Add `LICENSE` file** with canonical GPLv2 text (copy WordPress core's `license.txt`).
