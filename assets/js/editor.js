@@ -278,4 +278,56 @@
 			subtree: true
 		} );
 	}
+
+	/* ============================================================
+	 * R8 · Arrow-key navigation hint
+	 *
+	 * Block-to-block arrow-key navigation is undiscoverable — it's
+	 * absent from the keyboard-shortcuts modal and has no visible
+	 * affordance (pain point P1, still unaddressed by core). Show a
+	 * one-time info notice teaching it; "Got it" dismisses it for
+	 * good (localStorage). Notices are announced to screen readers,
+	 * so this also helps non-sighted users.
+	 * ============================================================ */
+	var HINT_KEY = 'blockEditorStudioArrowHintDismissed';
+	var HINT_NOTICE_ID = 'block-editor-studio/arrow-key-hint';
+
+	function maybeShowArrowKeyHint() {
+		try {
+			if ( window.localStorage.getItem( HINT_KEY ) === '1' ) {
+				return;
+			}
+		} catch ( e ) {}
+
+		var notices = wp.data && wp.data.dispatch( 'core/notices' );
+		if ( ! notices || ! notices.createInfoNotice ) {
+			return;
+		}
+
+		notices.createInfoNotice(
+			__(
+				'Tip: use the ↑ and ↓ arrow keys to move between blocks. Press Esc to select a block, then Tab to step through them.',
+				'block-editor-studio'
+			),
+			{
+				id: HINT_NOTICE_ID,
+				isDismissible: false,
+				actions: [
+					{
+						label: __( 'Got it', 'block-editor-studio' ),
+						onClick: function () {
+							try {
+								window.localStorage.setItem( HINT_KEY, '1' );
+							} catch ( e ) {}
+							try {
+								wp.data.dispatch( 'core/notices' ).removeNotice( HINT_NOTICE_ID );
+							} catch ( e ) {}
+						}
+					}
+				]
+			}
+		);
+	}
+
+	maybeShowArrowKeyHint();
 } )( window.wp );

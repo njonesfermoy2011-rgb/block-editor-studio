@@ -47,11 +47,11 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 | R2 | Persistent "Add block" appender at end of content (see note) | CSS canvas + modest JS | Med | P7 | **✅ verified live (WP 7.0)** |
 | R3 | List View refresh — hover feedback + row spacing (selected row already adopts accent via R1) | Pure CSS | Low | P4 | **✅ verified live (WP 7.0)** |
 | R4 | ~~Inspector progressive disclosure~~ | — | — | P8 | **❌ dropped — core already does this (ToolsPanel; Advanced collapsed) on 6.5+** |
-| R5 | Focus ring polish — consistency + 6.5–6.7 a11y backfill | Pure CSS | Low | P9·P10 | **thin** — R1 already branded focus via accent; core fixed AA in 6.8 |
-| R6 | Soften the block inserter modal — radius, shadow, calmer tabs | Pure CSS | Low | P6 | **keep (aesthetic)** |
+| R5 | Focus visibility — keep plugin controls robust incl. forced-colors (no re-skin of core focus) | Pure CSS | Low | P9·P10 | **✅ built — awaiting live verification** |
+| R6 | Calmer inserter — rounded, accent-soft hover on block-grid items (inserter is a docked panel now, not a modal) | Pure CSS | Low | P6 | **✅ built — awaiting live verification** |
 | R7 | ~~Canvas typography polish~~ | — | — | — | **❌ dropped — breaks WYSIWYG (canvas must match theme front-end)** |
-| R8 | Arrow-key onboarding hint — one-time dismissable notice | SlotFill + localStorage | Low | P1 | **strong keep** — P1 genuinely unaddressed by core |
-| R9 | Header bar declutter — reduce icon visual weight, soft group separators | Pure CSS | Low | — | **keep (aesthetic)** |
+| R8 | Arrow-key navigation hint — one-time info notice, "Got it" persists (localStorage) | core/notices + JS | Low | P1 | **✅ built — awaiting live verification** |
+| R9 | Header declutter — secondary utility icons recede until hover/focus | Pure CSS | Low | — | **✅ built — awaiting live verification** |
 | R10 | Block toolbar polish — accent-underline active state | Pure CSS | Low | — | **thin** — core already floats/rounds the contextual toolbar |
 | R11 | ~~Focus mode toggle~~ | — | — | — | **❌ dropped — core ships Distraction Free (since 6.2)** |
 

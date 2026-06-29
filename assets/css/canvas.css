@@ -93,3 +93,15 @@ body.bes-accent-slate {
 		transition: none;
 	}
 }
+
+/* Windows High Contrast / forced-colors: keep the button legible
+   and its focus state unmistakable. */
+@media (forced-colors: active) {
+	.bes-add-block {
+		border: 1px solid ButtonText;
+	}
+	.bes-add-block:focus-visible {
+		outline: 2px solid Highlight;
+		outline-offset: 2px;
+	}
+}

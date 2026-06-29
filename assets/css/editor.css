@@ -167,6 +167,82 @@ body.bes-accent-slate {
 }
 
 /* ============================================================
+   R6 · Calmer block inserter
+   In WP 6.x+ the inserter is a docked panel (not a modal), so this
+   is panel polish, not "soften the modal": rounded, accent-soft
+   hover on block-grid items so browsing blocks feels responsive.
+   ============================================================ */
+.block-editor-inserter__menu .block-editor-block-types-list__item {
+	border-radius: 8px;
+	transition: background-color var(--bes-dur) var(--bes-ease);
+}
+
+.block-editor-inserter__menu .block-editor-block-types-list__item:hover {
+	background-color: var(--bes-accent-soft);
+}
+
+/* ============================================================
+   R9 · Header declutter
+   Let secondary chrome recede (Principle 1): dim utility icons at
+   rest, full strength on hover/focus. The accent inserter "+", the
+   Settings toggle, our own icon, and the Publish button are left at
+   full weight — they've earned the attention.
+   ============================================================ */
+.editor-header .editor-history__undo,
+.editor-header .editor-history__redo,
+.editor-header .editor-document-tools__document-overview,
+.editor-header .editor-preview-dropdown__toggle,
+.editor-header__settings .components-dropdown-menu__toggle {
+	opacity: 0.7;
+	transition: opacity var(--bes-dur) var(--bes-ease);
+}
+
+.editor-header .editor-history__undo:hover,
+.editor-header .editor-history__undo:focus-visible,
+.editor-header .editor-history__redo:hover,
+.editor-header .editor-history__redo:focus-visible,
+.editor-header .editor-document-tools__document-overview:hover,
+.editor-header .editor-document-tools__document-overview:focus-visible,
+.editor-header .editor-preview-dropdown__toggle:hover,
+.editor-header .editor-preview-dropdown__toggle:focus-visible,
+.editor-header__settings .components-dropdown-menu__toggle:hover,
+.editor-header__settings .components-dropdown-menu__toggle:focus-visible {
+	opacity: 1;
+}
+
+/* ============================================================
+   R5 · Focus visibility
+   Core focus rings already adopt the accent (remapped in R1), and
+   core fixed AA contrast in WP 6.8 — so we don't re-skin core focus
+   (that risks double rings). We only keep OUR controls' focus robust,
+   including Windows High Contrast / forced-colors mode.
+   ============================================================ */
+.bes-accent-swatch:focus-visible {
+	outline: 2px solid var(--bes-accent);
+	outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+	.bes-accent-swatch.is-active {
+		outline: 2px solid SelectedItem;
+	}
+	.bes-accent-swatch:focus-visible {
+		outline: 2px solid Highlight;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.block-editor-inserter__menu .block-editor-block-types-list__item,
+	.editor-header .editor-history__undo,
+	.editor-header .editor-history__redo,
+	.editor-header .editor-document-tools__document-overview,
+	.editor-header .editor-preview-dropdown__toggle,
+	.editor-header__settings .components-dropdown-menu__toggle {
+		transition: none;
+	}
+}
+
+/* ============================================================
    Accent picker (in-editor evaluation control)
    Lives in the Block Editor Studio sidebar registered by editor.js.
    ============================================================ */
