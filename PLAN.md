@@ -102,7 +102,7 @@ Batched by risk; each batch = one version bump, deploy, live verification before
 |-------|----------|--------|------|--------|
 | **A (v0.5.0)** | F1 Clear Formatting button · F2 selection/block word count | registerFormatType + RichTextToolbarButton · wordcount + data store in sidebar | Low | **✅ built + logic-verified** (lint clean; clear-format logic + wordcount APIs confirmed in live editor); live UI confirm folded into QA |
 | B (v0.6.0) | F4 Safe destructive actions — undo toast on block removal **(drag-threshold guard deferred)** | block-count watch + native undo + hasEditorRedo false-positive filter | Med | **✅ built + behavior-verified** (fresh removal → toast; undo-of-insert → suppressed, confirmed live). Drag guard deferred: blocks draggable only transiently via native DnD, no clean threshold hook |
-| C (v0.7.0) | F5 Find & Replace in post | PluginSidebar modal + getBlocks traversal + attribute replace | Med | queued |
+| C (v0.7.0) | F5 Find & Replace in post | sidebar panel + getBlocks recursion + DOMParser text-node replace + updateBlockAttributes | Med | **✅ built + engine-verified** (counts ci/cs correct, href/markup preserved, code skipped, nested recursed, URLs not counted — all confirmed live). UI render confirm folded into QA |
 | D (v0.8.0) | F6 Paste cleanup (Word/Docs junk) · F3 Link defaults (new-tab/nofollow) | paste-event/pasteHandler filter · link format filter | Med | queued |
 
 Then → closing stages (review, QA, listing, submission). Re-test paste vs WP 7.0's improved handler before building F6.

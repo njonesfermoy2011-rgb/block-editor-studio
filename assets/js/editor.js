@@ -25,6 +25,8 @@
 	var _n = ( wp.i18n && wp.i18n._n ) || function ( s, p, n ) { return n === 1 ? s : p; };
 	var sprintf = ( wp.i18n && wp.i18n.sprintf ) || function ( f ) { return f; };
 	var useSelect = wp.data && wp.data.useSelect;
+	var useEffect = wp.element.useEffect;
+	var components = wp.components || {};
 	var registerFormatType = wp.richText && wp.richText.registerFormatType;
 	var RichTextToolbarButton = wp.blockEditor && wp.blockEditor.RichTextToolbarButton;
 
@@ -167,6 +169,214 @@
 		);
 	}
 
+	/* F5 · Find & Replace
+	 * Search the post's visible text and replace across blocks. Matching and
+	 * replacing happen only inside text nodes (via DOMParser), so markup,
+	 * links and URLs are never touched. Rich-text attributes are read as HTML
+	 * (plain string OR a RichTextData object) and written back as an HTML
+	 * string, which the store normalises. Code/HTML/preformatted/shortcode
+	 * blocks are skipped so their raw content is never altered. */
+	var BES_TEXT_ATTRS = [ 'content', 'value', 'caption', 'citation', 'text' ];
+	var BES_SKIP_BLOCKS = {
+		'core/code': 1,
+		'core/html': 1,
+		'core/preformatted': 1,
+		'core/shortcode': 1,
+		'core/freeform': 1
+	};
+
+	function besEscapeRegExp( s ) {
+		return s.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' );
+	}
+
+	function besGetHtml( v ) {
+		if ( typeof v === 'string' ) {
+			return v;
+		}
+		if ( v && typeof v.toHTMLString === 'function' ) {
+			return v.toHTMLString();
+		}
+		return null;
+	}
+
+	function besProcessHtml( html, re, replacement, doReplace ) {
+		var docp = new window.DOMParser().parseFromString(
+			'<div id="bes-fr-root">' + html + '</div>',
+			'text/html'
+		);
+		var root = docp.getElementById( 'bes-fr-root' );
+		if ( ! root ) {
+			return { html: html, count: 0 };
+		}
+		var walker = docp.createTreeWalker( root, window.NodeFilter.SHOW_TEXT, null );
+		var nodes = [];
+		while ( walker.nextNode() ) {
+			nodes.push( walker.currentNode );
+		}
+		var count = 0;
+		for ( var i = 0; i < nodes.length; i++ ) {
+			var matched = nodes[ i ].nodeValue.match( re );
+			if ( matched ) {
+				count += matched.length;
+				if ( doReplace ) {
+					// Function replacer so the replacement is treated literally
+					// (no $-backreference interpretation).
+					nodes[ i ].nodeValue = nodes[ i ].nodeValue.replace( re, function () {
+						return replacement;
+					} );
+				}
+			}
+		}
+		return { html: root.innerHTML, count: count };
+	}
+
+	function besWalkBlocks( blocks, cb ) {
+		for ( var i = 0; i < blocks.length; i++ ) {
+			cb( blocks[ i ] );
+			if ( blocks[ i ].innerBlocks && blocks[ i ].innerBlocks.length ) {
+				besWalkBlocks( blocks[ i ].innerBlocks, cb );
+			}
+		}
+	}
+
+	function besFindReplace( search, replacement, matchCase, doReplace ) {
+		if ( ! search ) {
+			return 0;
+		}
+		var re = new RegExp( besEscapeRegExp( search ), matchCase ? 'g' : 'gi' );
+		var be = wp.data.select( 'core/block-editor' );
+		var dBE = wp.data.dispatch( 'core/block-editor' );
+		var total = 0;
+		besWalkBlocks( be.getBlocks(), function ( block ) {
+			if ( BES_SKIP_BLOCKS[ block.name ] ) {
+				return;
+			}
+			var attrs = block.attributes || {};
+			var updates = {};
+			for ( var a = 0; a < BES_TEXT_ATTRS.length; a++ ) {
+				var key = BES_TEXT_ATTRS[ a ];
+				var html = besGetHtml( attrs[ key ] );
+				if ( html === null || html === '' ) {
+					continue;
+				}
+				var res = besProcessHtml( html, re, replacement, doReplace );
+				total += res.count;
+				if ( doReplace && res.count > 0 ) {
+					updates[ key ] = res.html;
+				}
+			}
+			if ( doReplace && Object.keys( updates ).length ) {
+				dBE.updateBlockAttributes( block.clientId, updates );
+			}
+		} );
+		return total;
+	}
+
+	function FindReplacePanel() {
+		if ( ! components.TextControl || ! components.Button || ! useState || ! useEffect ) {
+			return null;
+		}
+		var s = useState( '' );
+		var search = s[ 0 ];
+		var setSearch = s[ 1 ];
+		var r = useState( '' );
+		var replacement = r[ 0 ];
+		var setReplacement = r[ 1 ];
+		var c = useState( false );
+		var matchCase = c[ 0 ];
+		var setMatchCase = c[ 1 ];
+		var mi = useState( null );
+		var matchInfo = mi[ 0 ];
+		var setMatchInfo = mi[ 1 ];
+		var stt = useState( '' );
+		var status = stt[ 0 ];
+		var setStatus = stt[ 1 ];
+
+		// Live, debounced match count as the user types.
+		useEffect(
+			function () {
+				if ( ! search ) {
+					setMatchInfo( null );
+					return undefined;
+				}
+				var timer = window.setTimeout( function () {
+					try {
+						setMatchInfo( besFindReplace( search, '', matchCase, false ) );
+					} catch ( e ) {
+						setMatchInfo( null );
+					}
+				}, 300 );
+				return function () {
+					window.clearTimeout( timer );
+				};
+			},
+			[ search, matchCase ]
+		);
+
+		function doReplaceAll() {
+			if ( ! search ) {
+				return;
+			}
+			var n = 0;
+			try {
+				n = besFindReplace( search, replacement, matchCase, true );
+			} catch ( e ) {}
+			setStatus(
+				n > 0
+					? sprintf( _n( 'Replaced %d match.', 'Replaced %d matches.', n, 'block-editor-studio' ), n )
+					: __( 'No matches found.', 'block-editor-studio' )
+			);
+			setMatchInfo( 0 );
+		}
+
+		var countLabel =
+			matchInfo === null
+				? ''
+				: matchInfo === 0
+				? __( 'No matches', 'block-editor-studio' )
+				: sprintf( _n( '%d match', '%d matches', matchInfo, 'block-editor-studio' ), matchInfo );
+
+		return el(
+			'div',
+			{ className: 'bes-findreplace' },
+			el( 'h3', { className: 'bes-section-title' }, __( 'Find & Replace', 'block-editor-studio' ) ),
+			el( components.TextControl, {
+				label: __( 'Find', 'block-editor-studio' ),
+				value: search,
+				onChange: setSearch,
+				__nextHasNoMarginBottom: true
+			} ),
+			el( components.TextControl, {
+				label: __( 'Replace with', 'block-editor-studio' ),
+				value: replacement,
+				onChange: setReplacement,
+				__nextHasNoMarginBottom: true
+			} ),
+			components.CheckboxControl
+				? el( components.CheckboxControl, {
+						label: __( 'Match case', 'block-editor-studio' ),
+						checked: matchCase,
+						onChange: setMatchCase,
+						__nextHasNoMarginBottom: true
+				  } )
+				: null,
+			countLabel ? el( 'p', { className: 'bes-findreplace__count' }, countLabel ) : null,
+			el(
+				components.Button,
+				{
+					variant: 'primary',
+					onClick: doReplaceAll,
+					disabled: ! search || matchInfo === 0,
+					__next40pxDefaultSize: true
+				},
+				__( 'Replace all', 'block-editor-studio' )
+			),
+			status
+				? el( 'p', { className: 'bes-findreplace__status', 'aria-live': 'polite' }, status )
+				: null
+		);
+	}
+
 	/* F1 · Clear Formatting
 	 * A rich-text toolbar button that strips inline formatting from the
 	 * selection (classic-editor parity; core dropped it). Registered as a
@@ -227,7 +437,13 @@
 						title: __( 'Block Editor Studio', 'block-editor-studio' ),
 						icon: icon
 					},
-					el( 'div', { className: 'bes-sidebar' }, el( AccentPicker ), el( WordCountPanel ) )
+					el(
+						'div',
+						{ className: 'bes-sidebar' },
+						el( AccentPicker ),
+						el( WordCountPanel ),
+						el( FindReplacePanel )
+					)
 				)
 			);
 		}

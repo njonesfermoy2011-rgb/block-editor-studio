@@ -324,6 +324,26 @@ body.bes-accent-slate {
 	font-variant-numeric: tabular-nums;
 }
 
+/* Find & Replace (F5) */
+.bes-findreplace {
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px solid var(--bes-separator);
+}
+
+.bes-findreplace__count {
+	margin: 4px 0 12px;
+	font-size: 12px;
+	color: var(--bes-ink-soft);
+	font-variant-numeric: tabular-nums;
+}
+
+.bes-findreplace__status {
+	margin: 10px 0 0;
+	font-size: 12px;
+	color: var(--bes-accent);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.bes-accent-swatch {
 		transition: none;

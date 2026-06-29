@@ -3,7 +3,7 @@ Contributors: nathanaeljones
 Tags: block editor, gutenberg, editor, ui, ux, writing
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.6.0
+Stable tag: 0.7.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -54,6 +54,9 @@ No. Block Editor Studio is purely visual — it does not modify block markup, bl
 Yes. Because it works at the CSS/UI layer rather than replacing or forking Gutenberg, it is compatible with third-party block libraries.
 
 == Changelog ==
+
+= 0.7.0 =
+* New: Find & Replace. Search the post's text and replace across all blocks from the Block Editor Studio panel, with a live match count and an optional case-sensitive match. Links, markup and code blocks are left untouched.
 
 = 0.6.0 =
 * New: removing a block now shows a brief "block removed — Undo" message, so accidental deletions are easy to recover. It stays quiet when you simply press Ctrl/Cmd+Z.
