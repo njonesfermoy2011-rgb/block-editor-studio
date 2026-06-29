@@ -42,8 +42,8 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 
 | # | Step | Method | Risk | Pain pts | Status |
 |---|------|--------|------|----------|--------|
-| **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **▶ built — awaiting live verification** |
-| R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **▶ built — awaiting live verification** |
+| **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **✅ verified live (WP 7.0)** |
+| R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **✅ verified live (WP 7.0)** |
 | R2 | Block inserter "+" visible at rest | Pure CSS | Med | P7 | todo |
 | R3 | List View refresh — spacing, hover, nesting, selected state | Pure CSS | Low | P4 | todo |
 | R4 | Inspector progressive disclosure — Advanced/Dimensions/Border collapsed by default | CSS + small JS | Med | P8 | todo |
@@ -92,7 +92,13 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 
 ## Verification approach
 
-Every CSS step is verified in a live editor before the next begins — visual CSS cannot be verified by reading it. We will either drive a test site with Claude-in-Chrome, or the user spot-checks each commit. **Decision pending: which test environment.**
+Every CSS step is verified in a live editor before the next begins — visual CSS cannot be verified by reading it.
+
+**Environment:** remote dev site `https://my-test-site.website/` (WordPress 7.0), driven via Claude-in-Chrome in the user's logged-in session.
+
+**Deploy / update loop:** the plugin is installed via Git Updater from `njonesfermoy2011-rgb/block-editor-studio` tracking the `main` branch (`GitHub Plugin URI` + `Primary Branch` headers). To push a step to the dev site: commit + push to `main`, **bump the version** in the header + `readme.txt` (so Git Updater detects the update), then run the update from Dashboard → Updates (or the Plugins screen). Verification per step: open the editor, screenshot, check the browser console for errors/warnings (zero tolerance — a wp.org review criterion).
+
+**Pre-submission cleanup:** remove the `GitHub Plugin URI` and `Primary Branch` dev headers before the wp.org build (Git Updater must not shadow wp.org updates).
 
 ## Pipeline note
 
