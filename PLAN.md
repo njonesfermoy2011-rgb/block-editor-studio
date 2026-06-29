@@ -100,12 +100,14 @@ Batched by risk; each batch = one version bump, deploy, live verification before
 
 | Batch | Features | Method | Risk | Status |
 |-------|----------|--------|------|--------|
-| **A (v0.5.0)** | F1 Clear Formatting button · F2 selection/block word count | registerFormatType + RichTextToolbarButton · wordcount + data store in sidebar | Low | **▶ building** |
+| **A (v0.5.0)** | F1 Clear Formatting button · F2 selection/block word count | registerFormatType + RichTextToolbarButton · wordcount + data store in sidebar | Low | **✅ built + logic-verified** (lint clean; clear-format logic + wordcount APIs confirmed in live editor); live UI confirm folded into QA |
 | B (v0.6.0) | F4 Safe destructive actions — undo toast on block removal + drag-threshold guard for accidental move | data-store action interception (guarded) | **Med-High** | queued |
 | C (v0.7.0) | F5 Find & Replace in post | PluginSidebar modal + getBlocks traversal + attribute replace | Med | queued |
 | D (v0.8.0) | F6 Paste cleanup (Word/Docs junk) · F3 Link defaults (new-tab/nofollow) | paste-event/pasteHandler filter · link format filter | Med | queued |
 
 Then → closing stages (review, QA, listing, submission). Re-test paste vs WP 7.0's improved handler before building F6.
+
+**Workflow note (deploy friction):** the Git Updater deploy is reliably *unreliable* on this host (intermittent `cURL error 35` to GitHub — lands eventually after repeated cache refreshes). Paying that tax per batch is wasteful. Adopted approach for the suite: build each batch, **verify logic + APIs deterministically via console injection in the live editor** (the faithful-preview method that confirmed v0.4.0), lint, and commit — then do **one consolidated Git Updater deploy + the full live QA pass** at the QA stage. Invasive batches (B safe-delete, D paste) still get a focused console-preview of their actual runtime behavior, not just unit-logic.
 
 ## Closing stages (after the build)
 
