@@ -44,7 +44,7 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 |---|------|--------|------|----------|--------|
 | **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **✅ verified live (WP 7.0)** |
 | R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **✅ verified live (WP 7.0)** |
-| R2 | Block inserter "+" visible at rest | Pure CSS | Med | P7 | todo |
+| R2 | Persistent "Add block" appender at end of content (see note) | CSS canvas + modest JS | Med | P7 | **▶ built — awaiting live verification** |
 | R3 | List View refresh — spacing, hover, nesting, selected state | Pure CSS | Low | P4 | todo |
 | R4 | Inspector progressive disclosure — Advanced/Dimensions/Border collapsed by default | CSS + small JS | Med | P8 | todo |
 | R5 | Focus ring upgrade — WCAG 2.2 AA, branded, consistent | Pure CSS | Low | P9·P10 | todo |
@@ -54,6 +54,9 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 | R9 | Header bar declutter — reduce icon visual weight, soft group separators | Pure CSS | Low | — | todo |
 | R10 | Block toolbar polish — float, radius, accent-underline active state | Pure CSS | Low | — | todo |
 | R11 | Optional "Focus mode" toggle — hides chrome, centers content | SlotFill + CSS | Low | — | stretch |
+
+### R2 note — scope change (decided during build)
+Live DOM inspection showed the between-blocks "+" inserter is **mounted on hover, not in the DOM at rest** — so pure CSS cannot make it persistent. Decision: ship a persistent "Add block" button mounted after the content root via modest, defensive JS (click → `insertBlock` through the data store; button is a sibling of React's root so re-renders don't wipe it; self-heals if the iframe is recreated). Accepted tradeoff: small ongoing maintenance risk against editor updates. This also introduced canvas-CSS injection (`enqueue_block_assets` + `is_admin()`) and accent-sync into the iframe — groundwork R7 reuses.
 
 ### Out of scope for v1
 - Tab-key → sidebar behavior (requires forking core keyboard handler)
