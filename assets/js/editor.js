@@ -408,4 +408,93 @@
 	}
 
 	maybeShowArrowKeyHint();
+
+	/* ============================================================
+	 * F4 · Safe destructive actions — undo toast on block removal
+	 *
+	 * Accidental block deletion ("I lost my work") is a top complaint,
+	 * and core declined a delete-confirm dialog (relying on Ctrl+Z). We
+	 * add a gentler safety net: when a *fresh* edit removes blocks, show
+	 * a dismissible snackbar with an Undo action (native editor undo).
+	 *
+	 * Detecting a removal without false positives: we watch the global
+	 * block count for a decrease, but a decrease also happens when the
+	 * user presses Ctrl+Z to undo an insertion. We tell them apart with
+	 * hasEditorRedo() — after an undo a redo becomes available, so we
+	 * suppress in that case and only toast for genuine fresh removals.
+	 * (Deferred: a drag-threshold guard for accidental moves — blocks
+	 * are draggable only transiently via native DnD, with no clean
+	 * threshold hook; too fragile to ship responsibly. v2 candidate.)
+	 * ============================================================ */
+	( function initSafeDelete() {
+		if ( ! wp.data || ! wp.data.subscribe ) {
+			return;
+		}
+		var be = wp.data.select( 'core/block-editor' );
+		if ( ! be || typeof be.getGlobalBlockCount !== 'function' ) {
+			return;
+		}
+
+		var NOTICE_ID = 'block-editor-studio/block-removed';
+		var prevCount = be.getGlobalBlockCount();
+		var cooling = false;
+
+		function showRemovedToast( removed ) {
+			var notices = wp.data.dispatch( 'core/notices' );
+			if ( ! notices || ! notices.createNotice ) {
+				return;
+			}
+			notices.createNotice(
+				'info',
+				sprintf(
+					_n( '%d block removed.', '%d blocks removed.', removed, 'block-editor-studio' ),
+					removed
+				),
+				{
+					id: NOTICE_ID,
+					type: 'snackbar',
+					isDismissible: true,
+					actions: [
+						{
+							label: __( 'Undo', 'block-editor-studio' ),
+							onClick: function () {
+								try {
+									wp.data.dispatch( 'core/editor' ).undo();
+								} catch ( e ) {}
+							}
+						}
+					]
+				}
+			);
+		}
+
+		wp.data.subscribe( function () {
+			var store = wp.data.select( 'core/block-editor' );
+			if ( ! store || typeof store.getGlobalBlockCount !== 'function' ) {
+				return;
+			}
+			var count = store.getGlobalBlockCount();
+			if ( count === prevCount ) {
+				return;
+			}
+			var dropped = prevCount - count;
+			prevCount = count;
+			if ( dropped <= 0 || cooling ) {
+				return;
+			}
+			// Suppress when the decrease came from an undo (a redo is now available),
+			// and only offer Undo when undo is actually possible.
+			var ed = wp.data.select( 'core/editor' );
+			var fromUndo = ed && typeof ed.hasEditorRedo === 'function' && ed.hasEditorRedo();
+			var canUndo = ed && typeof ed.hasEditorUndo === 'function' ? ed.hasEditorUndo() : true;
+			if ( fromUndo || ! canUndo ) {
+				return;
+			}
+			cooling = true;
+			window.setTimeout( function () {
+				cooling = false;
+			}, 500 );
+			showRemovedToast( dropped );
+		} );
+	} )();
 } )( window.wp );
