@@ -47,11 +47,13 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 | R2 | Persistent "Add block" appender at end of content (see note) | CSS canvas + modest JS | Med | P7 | **✅ verified live (WP 7.0)** |
 | R3 | List View refresh — hover feedback + row spacing (selected row already adopts accent via R1) | Pure CSS | Low | P4 | **✅ verified live (WP 7.0)** |
 | R4 | ~~Inspector progressive disclosure~~ | — | — | P8 | **❌ dropped — core already does this (ToolsPanel; Advanced collapsed) on 6.5+** |
-| R5 | Focus visibility — keep plugin controls robust incl. forced-colors (no re-skin of core focus) | Pure CSS | Low | P9·P10 | **✅ built — awaiting live verification** |
-| R6 | Calmer inserter — rounded, accent-soft hover on block-grid items (inserter is a docked panel now, not a modal) | Pure CSS | Low | P6 | **✅ built — awaiting live verification** |
+| R5 | Focus visibility — keep plugin controls robust incl. forced-colors (no re-skin of core focus) | Pure CSS | Low | P9·P10 | **code complete + previewed; live-deploy pending** |
+| R6 | Calmer inserter — rounded, accent-soft hover on block-grid items (inserter is a docked panel now, not a modal) | Pure CSS | Low | P6 | **code complete + previewed; live-deploy pending** |
 | R7 | ~~Canvas typography polish~~ | — | — | — | **❌ dropped — breaks WYSIWYG (canvas must match theme front-end)** |
-| R8 | Arrow-key navigation hint — one-time info notice, "Got it" persists (localStorage) | core/notices + JS | Low | P1 | **✅ built — awaiting live verification** |
-| R9 | Header declutter — secondary utility icons recede until hover/focus | Pure CSS | Low | — | **✅ built — awaiting live verification** |
+| R8 | Arrow-key navigation hint — one-time info notice, "Got it" persists (localStorage) | core/notices + JS | Low | P1 | **code complete + previewed; live-deploy pending** |
+| R9 | Header declutter — secondary utility icons recede until hover/focus | Pure CSS | Low | — | **code complete + previewed; live-deploy pending** |
+
+> **v0.4.0 deploy blocked (2026-06-29):** committed + pushed + previewed (injected the exact CSS/notice into the live v0.3.0 editor — all four render/behave correctly). But the live deploy is stuck: Git Updater can't reach GitHub (`cURL error 35` persistent this round, multiple refreshes), and the browser file-upload tool rejects Claude-generated ZIPs (only user-shared files allowed). **To land v0.4.0:** either retry Git Updater when host↔GitHub connectivity recovers (it's been intermittent — worked for 0.2.0/0.3.0 on retry), OR manually upload `dist/block-editor-studio.zip` via Plugins → Add New → Upload → "Replace current with uploaded". Then do the live confirmation pass on the real plugin.
 | R10 | Block toolbar polish — accent-underline active state | Pure CSS | Low | — | **thin** — core already floats/rounds the contextual toolbar |
 | R11 | ~~Focus mode toggle~~ | — | — | — | **❌ dropped — core ships Distraction Free (since 6.2)** |
 
