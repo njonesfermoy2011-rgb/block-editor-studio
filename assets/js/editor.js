@@ -22,6 +22,11 @@
 	var Fragment = wp.element.Fragment;
 	var useState = wp.element.useState;
 	var __ = ( wp.i18n && wp.i18n.__ ) || function ( s ) { return s; };
+	var _n = ( wp.i18n && wp.i18n._n ) || function ( s, p, n ) { return n === 1 ? s : p; };
+	var sprintf = ( wp.i18n && wp.i18n.sprintf ) || function ( f ) { return f; };
+	var useSelect = wp.data && wp.data.useSelect;
+	var registerFormatType = wp.richText && wp.richText.registerFormatType;
+	var RichTextToolbarButton = wp.blockEditor && wp.blockEditor.RichTextToolbarButton;
 
 	// PluginSidebar moved from wp.editPost to wp.editor in WP 6.6+.
 	// Prefer the newer home, fall back for 6.5.
@@ -121,6 +126,79 @@
 		);
 	}
 
+	/* F2 · Selection / per-block word count
+	 * Core only surfaces a whole-post total. This reads the currently
+	 * selected block(s) live and shows their word + character count. */
+	function WordCountPanel() {
+		if ( ! useSelect || ! wp.wordcount || ! wp.blocks ) {
+			return null;
+		}
+		var data = useSelect( function ( select ) {
+			var be = select( 'core/block-editor' );
+			var ids = be.getSelectedBlockClientIds();
+			var html = ids
+				.map( function ( id ) {
+					var block = be.getBlock( id );
+					return block ? wp.blocks.getBlockContent( block ) : '';
+				} )
+				.join( ' ' );
+			return { count: ids.length, html: html };
+		}, [] );
+
+		var text = ( data.html || '' ).replace( /<[^>]*>/g, ' ' );
+		var words = wp.wordcount.count( text, 'words' );
+		var chars = wp.wordcount.count( text, 'characters_including_spaces' );
+
+		var body;
+		if ( data.count === 0 ) {
+			body = __( 'Select a block to see its word count.', 'block-editor-studio' );
+		} else {
+			body =
+				sprintf( _n( '%d word', '%d words', words, 'block-editor-studio' ), words ) +
+				'  ·  ' +
+				sprintf( _n( '%d character', '%d characters', chars, 'block-editor-studio' ), chars );
+		}
+
+		return el(
+			'div',
+			{ className: 'bes-wordcount' },
+			el( 'h3', { className: 'bes-section-title' }, __( 'Word count', 'block-editor-studio' ) ),
+			el( 'p', { className: 'bes-wordcount__value' }, body )
+		);
+	}
+
+	/* F1 · Clear Formatting
+	 * A rich-text toolbar button that strips inline formatting from the
+	 * selection (classic-editor parity; core dropped it). Registered as a
+	 * format type purely to host the toolbar button and receive the
+	 * rich-text value/onChange — it never applies a format of its own. */
+	if ( registerFormatType && RichTextToolbarButton ) {
+		registerFormatType( 'block-editor-studio/clear-formatting', {
+			title: __( 'Clear formatting', 'block-editor-studio' ),
+			tagName: 'span',
+			className: 'bes-clear-formatting-noop',
+			edit: function ( props ) {
+				var value = props.value;
+				return el( RichTextToolbarButton, {
+					icon: 'editor-removeformatting',
+					title: __( 'Clear formatting', 'block-editor-studio' ),
+					onClick: function () {
+						var collapsed = value.start === value.end;
+						var from = collapsed ? 0 : value.start;
+						var to = collapsed ? value.text.length : value.end;
+						var formats = value.formats.slice();
+						for ( var i = from; i < to; i++ ) {
+							formats[ i ] = undefined;
+						}
+						props.onChange(
+							Object.assign( {}, value, { formats: formats, activeFormats: [] } )
+						);
+					}
+				} );
+			}
+		} );
+	}
+
 	var icon = el(
 		'svg',
 		{ width: 24, height: 24, viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' },
@@ -149,7 +227,7 @@
 						title: __( 'Block Editor Studio', 'block-editor-studio' ),
 						icon: icon
 					},
-					el( 'div', { className: 'bes-sidebar' }, el( AccentPicker ) )
+					el( 'div', { className: 'bes-sidebar' }, el( AccentPicker ), el( WordCountPanel ) )
 				)
 			);
 		}

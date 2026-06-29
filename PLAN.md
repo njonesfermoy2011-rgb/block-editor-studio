@@ -94,6 +94,19 @@ Fleet research into Gutenberg complaints still UNADDRESSED in WP 7.0 that an edi
 
 **Competitive landscape:** EditorsKit (~30k installs but stale) and BlockUX Workflow are the only general editor-UX players; none own the safety-undo, find-replace-polish, or paste-cleanup space.
 
+## Suite expansion (decided: build the fuller suite before first submission)
+
+Batched by risk; each batch = one version bump, deploy, live verification before the next. Invasive batches get extra care (WP-version guards, defensive coding) since they touch core internals and the wp.org reviewers scrutinise that.
+
+| Batch | Features | Method | Risk | Status |
+|-------|----------|--------|------|--------|
+| **A (v0.5.0)** | F1 Clear Formatting button · F2 selection/block word count | registerFormatType + RichTextToolbarButton · wordcount + data store in sidebar | Low | **▶ building** |
+| B (v0.6.0) | F4 Safe destructive actions — undo toast on block removal + drag-threshold guard for accidental move | data-store action interception (guarded) | **Med-High** | queued |
+| C (v0.7.0) | F5 Find & Replace in post | PluginSidebar modal + getBlocks traversal + attribute replace | Med | queued |
+| D (v0.8.0) | F6 Paste cleanup (Word/Docs junk) · F3 Link defaults (new-tab/nofollow) | paste-event/pasteHandler filter · link format filter | Med | queued |
+
+Then → closing stages (review, QA, listing, submission). Re-test paste vs WP 7.0's improved handler before building F6.
+
 ## Closing stages (after the build)
 
 ### A. In-depth code review
