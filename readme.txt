@@ -1,6 +1,6 @@
 === Block Editor Studio ===
-Contributors: nathanaeljones
-Tags: block editor, gutenberg, editor, ui, ux, writing
+Contributors: njones35
+Tags: gutenberg, block editor, find and replace, editor, writing
 Requires at least: 6.5
 Tested up to: 7.0
 Stable tag: 0.8.1
@@ -8,52 +8,77 @@ Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A calmer, cleaner experience for the WordPress block editor.
+A calmer, cleaner WordPress block editor — with Find & Replace, undo-on-delete, and clear formatting. Lightweight, no front-end impact.
 
 == Description ==
 
-Block Editor Studio gives the Gutenberg block editor a beautiful, calm, and intuitive UI/UX — without replacing it, forking it, or becoming a page builder.
+Block Editor Studio makes the WordPress block editor (Gutenberg) calmer, cleaner, and genuinely easier to use — and adds the everyday tools writers and editors keep wishing it had.
 
-The block editor is powerful. But for many users — especially newcomers — it's overwhelming. Competing toolbars, an invisible block inserter, a sidebar full of unexplained controls, and a navigation model that requires knowledge most users never discover.
+Gutenberg is powerful, but its interface can feel busy and unforgiving. Block Editor Studio is a lightweight skin and toolkit that smooths the rough edges — without replacing the editor, forking it, or turning it into a page builder.
 
-Block Editor Studio is a lightweight skin that addresses these problems directly:
+= Editing tools you'll use every day =
 
-* **Calmer chrome** — The editor toolbar, sidebar, and header recede, letting your content take centre stage
-* **Always-visible "Add block"** — A persistent button at the end of your content, so adding a block never depends on discovering a hover-only control
-* **Find & Replace** — Search and replace across every block, with a live match count. Links, markup and code are left untouched
-* **Undo on delete** — Removing a block shows a brief "Undo" message, so accidental deletions are easy to recover
-* **Clear Formatting** — One click to strip inline formatting from a selection
-* **List View refresh** — Better spacing, hover states, and visual hierarchy
-* **Navigation hint** — A one-time, dismissable tip that teaches new users how block navigation actually works
-* **Polished focus indicators** — Accessible, consistent focus styling, including high-contrast mode
+* **Find & Replace** across the whole post, with a live match count and optional case-sensitivity. Links, markup, and code blocks are never touched.
+* **Undo on delete** — remove a block and a one-click "Undo" appears, so accidental deletions are easy to recover.
+* **Clear Formatting** — strip messy inline formatting from any selection in one click.
+* **Live word count** for the selected block, not just the whole post.
 
-Everything loads only inside the editor. Zero impact on your site's front-end performance.
+= A calmer canvas =
+
+* A quieter, more focused editor — softer chrome, a restrained accent colour (choose teal, sage, or slate), and a tidier List View.
+* An always-visible "Add block" button, so adding content never depends on hovering to find a hidden control.
+* A friendly one-time tip that teaches keyboard navigation between blocks.
+* An optional toggle to reduce autosave frequency on slower sites.
+
+= Lightweight and safe by design =
+
+* Loads **only inside the editor** — zero scripts, styles, or slowdown on your live site.
+* Purely visual and additive: it never changes your block markup or saved content.
+* Works alongside your theme and other block plugins.
+
+No settings page to wrestle with, and no bloat. Just a better editing experience.
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/block-editor-studio`, or install directly from the WordPress plugin directory.
-2. Activate the plugin through the Plugins screen in WordPress.
-3. Open any post or page in the block editor — improvements are applied automatically.
+1. In your WordPress admin, go to Plugins → Add New Plugin and search for "Block Editor Studio", or upload the plugin ZIP via Plugins → Add New Plugin → Upload Plugin.
+2. Activate the plugin through the Plugins screen.
+3. Open any post or page in the block editor — the improvements are applied automatically. Open the Block Editor Studio panel from the editor's top-right toolbar for Find & Replace, word count, the accent picker, and performance options.
 
-No settings page. No configuration required.
+No configuration required.
 
 == Frequently Asked Questions ==
 
-= Does this affect how my site looks to visitors? =
+= Does the WordPress block editor have find and replace? =
 
-No. Block Editor Studio loads only inside the WordPress admin block editor. It has zero impact on your site's front-end output or page speed.
+Not on its own. Block Editor Studio adds a Find & Replace panel to the editor sidebar — search your whole post, see a live match count, and replace across every block at once. Links, markup, and code blocks are left untouched.
+
+= Does this slow down my website? =
+
+No. Block Editor Studio loads only inside the WordPress admin block editor. It adds nothing to your live site's pages and has zero impact on front-end performance.
+
+= Will it change or break my existing content? =
+
+No. It is purely visual and additive — it never modifies your block markup or saved content. Find & Replace only changes the text you ask it to.
+
+= How do I clear formatting in the block editor? =
+
+Select the text and click the Clear Formatting button in the block toolbar. It strips inline formatting — bold, italic, links and more — in one click.
 
 = Does it work with Full Site Editing / the Site Editor? =
 
-The core editor improvements apply in both the post editor and the Site Editor. Some features are specific to the post editor.
-
-= Will it break my existing blocks or content? =
-
-No. Block Editor Studio is purely visual — it does not modify block markup, block output, or saved content.
+Yes. The core editor improvements apply in both the post editor and the Site Editor. Some tools are specific to the post editor.
 
 = Is it compatible with other block plugins? =
 
 Yes. Because it works at the CSS/UI layer rather than replacing or forking Gutenberg, it is compatible with third-party block libraries.
+
+== Screenshots ==
+
+1. A calmer, cleaner block editor with your chosen accent colour.
+2. Find & Replace — search and replace across every block, with a live match count.
+3. Undo on delete — accidental block deletions are one click away from recovery.
+4. The Block Editor Studio panel: accent picker, word count, Find & Replace, and performance options.
+5. An always-visible "Add block" button and a tidier List View.
 
 == Changelog ==
 
@@ -88,3 +113,8 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 
 = 0.1.0 =
 * Initial release.
+
+== Upgrade Notice ==
+
+= 0.8.1 =
+Fixes a loading issue so all editor enhancements work. Recommended for everyone.
