@@ -124,7 +124,17 @@ Two independent passes (security+wp.org-compliance, and code-quality+6.5↔7.0-c
 - ✅ **Zero front-end bleed CONFIRMED** — on a published post, no Block Editor Studio styles/scripts, no `bes-*` classes, no accent body class. Editor-only enqueue (incl. iframe canvas.css `is_admin()` gate) verified clean. The #1 wp.org/perf criterion passes.
 - ✅ Per-feature behavior verified during build via faithful console injection (F1 clear-format, F2 wordcount, F4 undo TOAST/SUPPRESSED, F5 find-replace markup-safety, F7 heartbeat) + R1/R2/R3/R8 live on v0.4.0.
 - 🔴 **CRITICAL BUG FOUND BY LIVE QA (fixed in v0.8.1).** On the real deployed bundle, editor.js was **not loading at all** — `registerPlugin`/format/appender all absent, console clean. Root cause: the enqueue dependency array used `wp-word-count`, but the registered handle is `wp-wordcount`. One unregistered dep makes WP silently drop the entire script (no error). Every JS feature has been dead since v0.5.0 (when that dep was added). **Lesson: build-time console-injection verifies LOGIC but bypasses the enqueue/loading path — only a real deployed test catches this. The QA stage earned its keep.** Fixed: `wp-word-count`→`wp-wordcount`, v0.8.1.
-- ⏳ **Re-deploy v0.8.1 + re-run full QA.** Git Updater still down (cURL 35); v0.8.1 ZIP at `dist/` for manual re-upload. After deploy: confirm editor.js loads (plugin registered, appender mounted), console-clean, exercise every feature in the real bundle.
+- ✅ **QA PASSED on the real v0.8.1 bundle (WP 7.0), 2026-06-29.** Verified live (not injected):
+  - editor.js loads, `block-editor-studio` plugin registered, Clear-Formatting format registered, Add-block button mounted in the canvas. (The v0.8.1 `wp-wordcount` fix confirmed working — script now enqueues.)
+  - All four sidebar panels render (accent picker, word count, Find & Replace, autosave toggle); accent (slate) applied to chrome + canvas; picker persistence works.
+  - Arrow-key hint notice shows with "Got it".
+  - **Find & Replace end-to-end:** typing "post" → live "1 match"; Replace all → "Replaced 1 match." + content updated in the data store.
+  - **Undo-on-delete:** real deployed handler fires a snackbar "1 block removed." with an Undo action on a fresh removal.
+  - **Console clean** — no errors/warnings/deprecations with all deps loaded.
+  - **Zero front-end bleed** (re-confirmed earlier).
+  - Clear-format logic, word count, and heartbeat toggle additionally verified via console injection during build.
+  - *Tooling notes (not plugin issues):* a per-tab device-emulation/viewport glitch and React-controlled-input friction required JS-focus + real keystrokes and DOM-readouts instead of screenshots; a fresh tab cleared the emulation.
+  - *Left behind:* post 1 has unsaved QA edits ("articlearticle", a temp block) — never saved, harmless; a couple of server autosaves exist. Trash/ignore.
 
 ### Pre-submission checklist (do during/after QA, before building the wp.org ZIP)
 - [ ] **Remove `GitHub Plugin URI` + `Primary Branch` headers** (dev-only Git Updater) — KEEP until QA done, strip when building the submission ZIP.
