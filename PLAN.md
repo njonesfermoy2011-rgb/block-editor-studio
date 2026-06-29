@@ -46,14 +46,17 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 | R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **✅ verified live (WP 7.0)** |
 | R2 | Persistent "Add block" appender at end of content (see note) | CSS canvas + modest JS | Med | P7 | **✅ verified live (WP 7.0)** |
 | R3 | List View refresh — hover feedback + row spacing (selected row already adopts accent via R1) | Pure CSS | Low | P4 | **✅ verified live (WP 7.0)** |
-| R4 | Inspector progressive disclosure — Advanced/Dimensions/Border collapsed by default | CSS + small JS | Med | P8 | todo |
-| R5 | Focus ring upgrade — WCAG 2.2 AA, branded, consistent | Pure CSS | Low | P9·P10 | todo |
-| R6 | Soften the block inserter modal — radius, shadow, calmer tabs | Pure CSS | Low | P6 | todo |
-| R7 | Canvas typography polish — line-height, max-width, rhythm (`add_editor_style`) | CSS (canvas) | Low | — | todo |
-| R8 | Arrow-key onboarding hint — one-time dismissable notice | SlotFill + localStorage | Low | P1 | todo |
-| R9 | Header bar declutter — reduce icon visual weight, soft group separators | Pure CSS | Low | — | todo |
-| R10 | Block toolbar polish — float, radius, accent-underline active state | Pure CSS | Low | — | todo |
-| R11 | Optional "Focus mode" toggle — hides chrome, centers content | SlotFill + CSS | Low | — | stretch |
+| R4 | ~~Inspector progressive disclosure~~ | — | — | P8 | **❌ dropped — core already does this (ToolsPanel; Advanced collapsed) on 6.5+** |
+| R5 | Focus ring polish — consistency + 6.5–6.7 a11y backfill | Pure CSS | Low | P9·P10 | **thin** — R1 already branded focus via accent; core fixed AA in 6.8 |
+| R6 | Soften the block inserter modal — radius, shadow, calmer tabs | Pure CSS | Low | P6 | **keep (aesthetic)** |
+| R7 | ~~Canvas typography polish~~ | — | — | — | **❌ dropped — breaks WYSIWYG (canvas must match theme front-end)** |
+| R8 | Arrow-key onboarding hint — one-time dismissable notice | SlotFill + localStorage | Low | P1 | **strong keep** — P1 genuinely unaddressed by core |
+| R9 | Header bar declutter — reduce icon visual weight, soft group separators | Pure CSS | Low | — | **keep (aesthetic)** |
+| R10 | Block toolbar polish — accent-underline active state | Pure CSS | Low | — | **thin** — core already floats/rounds the contextual toolbar |
+| R11 | ~~Focus mode toggle~~ | — | — | — | **❌ dropped — core ships Distraction Free (since 6.2)** |
+
+### WP 7.0 re-audit (decided after R3/R4 came up partly redundant)
+The deep-research pain points were drawn from 2022–2024 community complaints; WordPress 6.5→7.0 has since addressed several: ToolsPanel inspector (P8), Distraction Free mode, 6.8 accessibility fixes (P9/P10 contrast+focus), List View keyboard shortcuts (P5). Verified live on WP 7.0. **Revised value proposition:** a cohesive calm *aesthetic* skin (accent + chrome calm) + two genuine newcomer aids (persistent Add block, arrow-key hint) + accent personality — not "fixes broken Gutenberg." The wp.org listing must reflect this honestly. **Recommended lean v1 finish:** R8 (strong), then R6 + R9 (light aesthetic polish); R5/R10 optional/thin; R4/R7/R11 dropped.
 
 ### R2 note — scope change (decided during build)
 Live DOM inspection showed the between-blocks "+" inserter is **mounted on hover, not in the DOM at rest** — so pure CSS cannot make it persistent. Decision: ship a persistent "Add block" button mounted after the content root via modest, defensive JS (click → `insertBlock` through the data store; button is a sibling of React's root so re-renders don't wipe it; self-heals if the iframe is recreated). Accepted tradeoff: small ongoing maintenance risk against editor updates. This also introduced canvas-CSS injection (`enqueue_block_assets` + `is_admin()`) and accent-sync into the iframe — groundwork R7 reuses.
