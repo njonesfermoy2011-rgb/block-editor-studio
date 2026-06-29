@@ -3,7 +3,7 @@ Contributors: nathanaeljones
 Tags: block editor, gutenberg, editor, ui, ux, writing
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.8.0
+Stable tag: 0.8.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -56,6 +56,9 @@ No. Block Editor Studio is purely visual — it does not modify block markup, bl
 Yes. Because it works at the CSS/UI layer rather than replacing or forking Gutenberg, it is compatible with third-party block libraries.
 
 == Changelog ==
+
+= 0.8.1 =
+* Fixed: a script dependency typo prevented the editor enhancements from loading. All features now load correctly.
 
 = 0.8.0 =
 * New: a "Reduce autosave frequency" toggle that slows background saving and checks, easing typing hitches on slower sites.
