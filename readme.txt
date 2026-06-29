@@ -19,11 +19,13 @@ The block editor is powerful. But for many users — especially newcomers — it
 Block Editor Studio is a lightweight skin that addresses these problems directly:
 
 * **Calmer chrome** — The editor toolbar, sidebar, and header recede, letting your content take centre stage
-* **Visible block inserter** — The add-block affordance is always visible, not hidden behind a hover
-* **Smarter inspector** — Advanced settings are collapsed by default so the controls you need are easy to find
-* **Polished focus indicators** — Accessible, consistent, and branded focus rings across the entire editor
+* **Always-visible "Add block"** — A persistent button at the end of your content, so adding a block never depends on discovering a hover-only control
+* **Find & Replace** — Search and replace across every block, with a live match count. Links, markup and code are left untouched
+* **Undo on delete** — Removing a block shows a brief "Undo" message, so accidental deletions are easy to recover
+* **Clear Formatting** — One click to strip inline formatting from a selection
 * **List View refresh** — Better spacing, hover states, and visual hierarchy
 * **Navigation hint** — A one-time, dismissable tip that teaches new users how block navigation actually works
+* **Polished focus indicators** — Accessible, consistent focus styling, including high-contrast mode
 
 Everything loads only inside the editor. Zero impact on your site's front-end performance.
 

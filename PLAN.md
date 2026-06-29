@@ -114,6 +114,20 @@ Then → closing stages (review, QA, listing, submission).
 
 ## Closing stages (after the build)
 
+### A. Code review — DONE (2026-06-29)
+Two independent passes (security+wp.org-compliance, and code-quality+6.5↔7.0-compat). **Verdict: well-engineered, security-clean, no release-blockers in code.** Every version-sensitive API (PluginSidebar package move, RichTextData, undo selectors) has working fallbacks; the global `subscribe` and the MutationObserver are properly throttled and don't leak.
+- **Fixed now:** removed a stale/false readme claim ("Smarter inspector — Advanced collapsed by default" — that was dropped R4); aligned license string to `GPLv2 or later`; refreshed the readme feature list to match what shipped.
+- **Overruled (false positive):** reviewer said `Tested up to: 7.0` is invalid "because 7.0 doesn't exist" — that's its training-cutoff; the dev site verifiably runs WP 7.0. Kept 7.0.
+- **Accepted as-is (non-blocking):** removal toast counts nested children via `getGlobalBlockCount` (accurate if surprising); F&R live-count is O(blocks) per debounce (off hot-path); word count reads 0 for dynamic blocks; `applyAccent` reassignment is sound (self-heals via observer).
+
+### Pre-submission checklist (do during/after QA, before building the wp.org ZIP)
+- [ ] **Remove `GitHub Plugin URI` + `Primary Branch` headers** (dev-only Git Updater) — KEEP until QA done, strip when building the submission ZIP.
+- [ ] **Add `LICENSE` file** with canonical GPLv2 text (copy WordPress core's `license.txt`).
+- [ ] **Trim `Tags:` to 5** (optimize in the listing/SEO stage).
+- [ ] **`Domain Path`/`/languages`** — add a `/languages` dir with the generated `.pot`, or drop the header.
+- [ ] Run the official **Plugin Check** plugin on the dev site (authoritative).
+
+
 ### A. In-depth code review
 - `/security-review` and `/code-review` on the full diff.
 - Independent read for: escaping/sanitization of any PHP output, `enqueue_block_editor_assets`-only loading (no front-end bleed), no `eval`/remote calls, text-domain consistency, i18n of all user-facing JS strings (`wp.i18n`).
