@@ -42,7 +42,8 @@ Pure-CSS items first (safe, zero perf cost), then minimal-JS items. Each step = 
 
 | # | Step | Method | Risk | Pain pts | Status |
 |---|------|--------|------|----------|--------|
-| **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **▶ in progress** |
+| **R1** | Global chrome reset — token layer, calm accent, sidebar recedes, soft separators | Pure CSS | Low | P1·P4·P8·P10 | **▶ built — awaiting live verification** |
+| R1b | Accent picker (teal/sage/slate) — in-editor `PluginSidebar`, localStorage | SlotFill + CSS | Low | — | **▶ built — awaiting live verification** |
 | R2 | Block inserter "+" visible at rest | Pure CSS | Med | P7 | todo |
 | R3 | List View refresh — spacing, hover, nesting, selected state | Pure CSS | Low | P4 | todo |
 | R4 | Inspector progressive disclosure — Advanced/Dimensions/Border collapsed by default | CSS + small JS | Med | P8 | todo |
@@ -99,8 +100,13 @@ This is a standalone WordPress.org plugin, **not** a Formidable Labs add-on. The
 
 ---
 
+## Resolved decisions
+
+1. **Accent hue** — *not* locked to one. Ship an in-editor **accent picker** (teal / sage / slate) for the pre-release so the winner is chosen on real pixels. Persistence is `localStorage` (per-browser) for now — deliberately minimal. **Deferred:** if we decide to expose this to end users as a feature, upgrade to per-user persistence (user meta + REST). Until then, no server-side plumbing.
+2. **Test environment** — drive a dev site via Claude-in-Chrome. A local Windows browser is connected. Verify each step live before the next.
+
 ## Open decisions
 
-1. **Accent hue** — proposed calm teal `#2d6e7e`. Alternatives: sage `#3d7a6a` (matches the research report's identity), or a muted slate-blue `#3a5a8c`. One-token change.
-2. **Test environment** — how do we verify each step in a live editor? (Claude-in-Chrome on a dev site / user spot-checks / other.)
-3. **Author/contributor slug** — `readme.txt` currently lists `nathanaeljones`. Confirm the WordPress.org username to use as Contributor.
+1. **Dev-site deployment** — how does the plugin get onto the test site for iterative CSS work? (Local install on this machine → symlink/copy the folder for instant refresh / remote → zip upload or Git Updater.)
+2. **Author/contributor slug** — `readme.txt` lists `nathanaeljones`. Confirm the WordPress.org username to use as Contributor.
+3. **Does the accent picker ship to end users?** — decide after evaluation. Affects persistence work and the public readme copy.

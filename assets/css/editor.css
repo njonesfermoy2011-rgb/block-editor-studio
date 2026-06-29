@@ -11,21 +11,13 @@
  */
 
 /* ============================================================
-   Token layer
-   The single source of truth for the skin's palette and motion.
-   Change the look here; every rule below references these.
+   Token layer — neutrals, separators, motion
+   The single source of truth for everything except the accent
+   (the accent is set per-scheme below). Change the look here.
    ============================================================ */
 .interface-interface-skeleton,
 .edit-post-layout,
 .editor-editor-interface {
-
-	/* Accent — a calm, desaturated teal-blue in place of WP's default.
-	   NOTE: the WordPress accent variables below must carry the SAME hex
-	   literal. They are parsed by JS to derive shade variants and reject
-	   var(), so --bes-accent cannot be referenced there. Keep them in sync. */
-	--bes-accent: #2d6e7e;
-	--bes-accent-hover: #25606e;
-	--bes-accent-soft: #eaf2f4;
 
 	/* Cool-biased neutrals — chosen, not defaulted. */
 	--bes-ink: #1d2433;          /* primary text / icons        */
@@ -44,26 +36,58 @@
 }
 
 /* ============================================================
-   Accent remap
-   Recolor WordPress' own theme variables to our calm accent so
-   buttons, toggles, checkboxes and focus rings across the editor
-   chrome adopt it consistently — regardless of the user's admin
-   color scheme. Literal hex required (JS-parsed; var() unsupported).
-   Keep these in sync with --bes-accent above.
-   ------------------------------------------------------------
-   Scope note: applies to chrome only. The in-canvas selected-block
-   outline lives inside the iframe and is recolored later via R7.
+   Accent schemes
+   Each scheme sets our own --bes-accent tokens AND recolors
+   WordPress' theme variables so buttons, toggles, checkboxes and
+   focus rings across the chrome adopt the accent consistently,
+   regardless of the user's admin color scheme.
+
+   NOTE: the --wp-* accent variables are parsed by JS to derive
+   shade variants and reject var(), so each scheme repeats the
+   literal hex. Keep the literals in sync with --bes-accent.
+
+   The scheme class lives on <body>: set server-side by PHP
+   (default, no flash of unstyled accent) and switched live by the
+   in-editor picker. Scope note: chrome only — the in-canvas
+   selected-block outline is inside the iframe (handled later, R7).
    ============================================================ */
-.interface-interface-skeleton,
-.edit-post-layout,
-.editor-editor-interface {
+body.bes-accent-teal {
+	--bes-accent: #2d6e7e;
+	--bes-accent-hover: #25606e;
+	--bes-accent-soft: #eaf2f4;
+
 	--wp-admin-theme-color: #2d6e7e;
 	--wp-admin-theme-color-darker-10: #28626f;
 	--wp-admin-theme-color-darker-20: #235662;
-
 	--wp-components-color-accent: #2d6e7e;
 	--wp-components-color-accent-darker-10: #28626f;
 	--wp-components-color-accent-darker-20: #235662;
+}
+
+body.bes-accent-sage {
+	--bes-accent: #3d7a6a;
+	--bes-accent-hover: #356a5c;
+	--bes-accent-soft: #ecf4f1;
+
+	--wp-admin-theme-color: #3d7a6a;
+	--wp-admin-theme-color-darker-10: #356a5c;
+	--wp-admin-theme-color-darker-20: #2e5d50;
+	--wp-components-color-accent: #3d7a6a;
+	--wp-components-color-accent-darker-10: #356a5c;
+	--wp-components-color-accent-darker-20: #2e5d50;
+}
+
+body.bes-accent-slate {
+	--bes-accent: #3a5a8c;
+	--bes-accent-hover: #324e79;
+	--bes-accent-soft: #edf1f8;
+
+	--wp-admin-theme-color: #3a5a8c;
+	--wp-admin-theme-color-darker-10: #324e79;
+	--wp-admin-theme-color-darker-20: #2b4368;
+	--wp-components-color-accent: #3a5a8c;
+	--wp-components-color-accent-darker-10: #324e79;
+	--wp-components-color-accent-darker-20: #2b4368;
 }
 
 /* ============================================================
@@ -108,4 +132,69 @@
 /* --- Secondary sidebar (List View / Inserter region): same quiet ground --- */
 .interface-interface-skeleton__secondary-sidebar {
 	border-inline-end: 1px solid var(--bes-separator);
+}
+
+/* ============================================================
+   Accent picker (in-editor evaluation control)
+   Lives in the Block Editor Studio sidebar registered by editor.js.
+   ============================================================ */
+.bes-sidebar {
+	padding: 16px;
+}
+
+.bes-accent-picker__hint {
+	margin: 0 0 12px;
+	color: var(--bes-ink-soft);
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+.bes-accent-picker__swatches {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.bes-accent-swatch {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 8px 10px;
+	background: transparent;
+	border: 1px solid var(--bes-separator-strong);
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 13px;
+	color: var(--bes-ink);
+	text-align: left;
+	transition: border-color var(--bes-dur) var(--bes-ease),
+		background-color var(--bes-dur) var(--bes-ease);
+}
+
+.bes-accent-swatch:hover {
+	background-color: var(--bes-sidebar-bg);
+}
+
+.bes-accent-swatch.is-active {
+	border-color: var(--bes-accent);
+	box-shadow: inset 0 0 0 1px var(--bes-accent);
+}
+
+.bes-accent-swatch__chip {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.bes-accent-swatch__label {
+	flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.bes-accent-swatch {
+		transition: none;
+	}
 }

@@ -35,8 +35,33 @@ function bes_enqueue_editor_assets() {
 	wp_enqueue_script(
 		'block-editor-studio',
 		BES_PLUGIN_URL . 'assets/js/editor.js',
-		array( 'wp-plugins', 'wp-edit-post', 'wp-element', 'wp-components', 'wp-data' ),
+		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-element', 'wp-i18n' ),
 		BES_VERSION,
 		true
 	);
+
+	wp_set_script_translations( 'block-editor-studio', 'block-editor-studio' );
+}
+
+/**
+ * Add the default accent class to the block editor screen's body so the
+ * skin's accent is applied before our script runs (no flash of the stock
+ * WordPress accent). The in-editor picker swaps this class client-side.
+ *
+ * @param string $classes Space-separated admin body classes.
+ * @return string
+ */
+add_filter( 'admin_body_class', 'bes_admin_body_class' );
+
+function bes_admin_body_class( $classes ) {
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return $classes;
+	}
+
+	$screen = get_current_screen();
+	if ( $screen && method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() ) {
+		$classes .= ' block-editor-studio bes-accent-teal';
+	}
+
+	return $classes;
 }
