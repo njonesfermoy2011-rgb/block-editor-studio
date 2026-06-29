@@ -2,7 +2,110 @@
  * Block Editor Studio — Editor Styles
  *
  * Loaded exclusively via enqueue_block_editor_assets.
- * Nothing in this file affects the front end.
+ * Styles the editor CHROME (header, sidebar, toolbar, inserter, list view)
+ * which lives outside the content iframe. Nothing here affects the front end.
+ *
+ * Selector policy: only stable, semantic classes
+ * (.interface-*, .editor-*, .edit-post-*, .components-*, .block-editor-*).
+ * Never target auto-generated hash classes.
  */
 
-/* Styles added in subsequent commits per implementation plan */
+/* ============================================================
+   Token layer
+   The single source of truth for the skin's palette and motion.
+   Change the look here; every rule below references these.
+   ============================================================ */
+.interface-interface-skeleton,
+.edit-post-layout,
+.editor-editor-interface {
+
+	/* Accent — a calm, desaturated teal-blue in place of WP's default.
+	   NOTE: the WordPress accent variables below must carry the SAME hex
+	   literal. They are parsed by JS to derive shade variants and reject
+	   var(), so --bes-accent cannot be referenced there. Keep them in sync. */
+	--bes-accent: #2d6e7e;
+	--bes-accent-hover: #25606e;
+	--bes-accent-soft: #eaf2f4;
+
+	/* Cool-biased neutrals — chosen, not defaulted. */
+	--bes-ink: #1d2433;          /* primary text / icons        */
+	--bes-ink-soft: #57607a;     /* secondary text / labels     */
+	--bes-chrome-bg: #ffffff;    /* header ground               */
+	--bes-sidebar-bg: #f7f8fa;   /* settings sidebar — recedes  */
+
+	/* Separators: soft tonal shifts, not hard lines
+	   (research Principle 2 — "structure felt, not seen"). */
+	--bes-separator: rgba(29, 36, 51, 0.08);
+	--bes-separator-strong: rgba(29, 36, 51, 0.14);
+
+	/* Motion: short, eased, never bouncy (research Principle 8). */
+	--bes-ease: cubic-bezier(0.2, 0, 0, 1);
+	--bes-dur: 140ms;
+}
+
+/* ============================================================
+   Accent remap
+   Recolor WordPress' own theme variables to our calm accent so
+   buttons, toggles, checkboxes and focus rings across the editor
+   chrome adopt it consistently — regardless of the user's admin
+   color scheme. Literal hex required (JS-parsed; var() unsupported).
+   Keep these in sync with --bes-accent above.
+   ------------------------------------------------------------
+   Scope note: applies to chrome only. The in-canvas selected-block
+   outline lives inside the iframe and is recolored later via R7.
+   ============================================================ */
+.interface-interface-skeleton,
+.edit-post-layout,
+.editor-editor-interface {
+	--wp-admin-theme-color: #2d6e7e;
+	--wp-admin-theme-color-darker-10: #28626f;
+	--wp-admin-theme-color-darker-20: #235662;
+
+	--wp-components-color-accent: #2d6e7e;
+	--wp-components-color-accent-darker-10: #28626f;
+	--wp-components-color-accent-darker-20: #235662;
+}
+
+/* ============================================================
+   R1 · Chrome reset
+   Let the content lead; let secondary UI recede
+   (research Principle 1 — "don't compete for attention you
+   haven't earned").
+   ============================================================ */
+
+/* --- Header bar: lighten the separator that divides it from the canvas --- */
+.editor-header,
+.edit-post-header {
+	border-bottom: 1px solid var(--bes-separator);
+}
+
+/* --- Settings sidebar: a quieter ground so the canvas dominates --- */
+.interface-interface-skeleton__sidebar {
+	background-color: var(--bes-sidebar-bg);
+	border-inline-start: 1px solid var(--bes-separator);
+}
+
+.interface-complementary-area {
+	background-color: transparent;
+}
+
+/* The sidebar's tab/header strip sits flush against the quieter ground. */
+.interface-complementary-area-header,
+.interface-complementary-area__fill > .components-panel__header {
+	border-bottom-color: var(--bes-separator);
+}
+
+/* --- Panels: replace hard dividing lines with soft tonal separation --- */
+.components-panel,
+.components-panel__body {
+	border-color: var(--bes-separator);
+}
+
+.components-panel__body + .components-panel__body {
+	border-top-color: var(--bes-separator);
+}
+
+/* --- Secondary sidebar (List View / Inserter region): same quiet ground --- */
+.interface-interface-skeleton__secondary-sidebar {
+	border-inline-end: 1px solid var(--bes-separator);
+}
