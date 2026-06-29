@@ -377,6 +377,67 @@
 		);
 	}
 
+	/* F7 · Reduce autosave frequency (Heartbeat interval)
+	 * The editor's Heartbeat ticks every ~10s by default, driving background
+	 * autosave/lock checks that can cause typing hitches on slow hosts. This
+	 * toggle slows it to 120s. Saved per-browser; the original interval is
+	 * captured once and restored when turned off. */
+	var HEARTBEAT_KEY = 'blockEditorStudioSlowHeartbeat';
+	var BES_SLOW_INTERVAL = 120;
+	var besOriginalInterval = null;
+
+	function besReadSlow() {
+		try {
+			return window.localStorage.getItem( HEARTBEAT_KEY ) === '1';
+		} catch ( e ) {
+			return false;
+		}
+	}
+
+	function besApplyHeartbeat( slow ) {
+		if ( ! window.wp || ! wp.heartbeat || typeof wp.heartbeat.interval !== 'function' ) {
+			return;
+		}
+		if ( besOriginalInterval === null ) {
+			besOriginalInterval = wp.heartbeat.interval();
+		}
+		wp.heartbeat.interval( slow ? BES_SLOW_INTERVAL : ( besOriginalInterval || 'standard' ) );
+	}
+
+	// Apply the saved preference on load.
+	besApplyHeartbeat( besReadSlow() );
+
+	function AutosavePanel() {
+		if ( ! components.ToggleControl || ! useState ) {
+			return null;
+		}
+		var t = useState( besReadSlow() );
+		var slow = t[ 0 ];
+		var setSlow = t[ 1 ];
+		function onChange( value ) {
+			setSlow( value );
+			try {
+				window.localStorage.setItem( HEARTBEAT_KEY, value ? '1' : '0' );
+			} catch ( e ) {}
+			besApplyHeartbeat( value );
+		}
+		return el(
+			'div',
+			{ className: 'bes-autosave' },
+			el( 'h3', { className: 'bes-section-title' }, __( 'Performance', 'block-editor-studio' ) ),
+			el( components.ToggleControl, {
+				label: __( 'Reduce autosave frequency', 'block-editor-studio' ),
+				help: __(
+					'Slows background saving and checks to reduce typing hitches on slower sites.',
+					'block-editor-studio'
+				),
+				checked: slow,
+				onChange: onChange,
+				__nextHasNoMarginBottom: true
+			} )
+		);
+	}
+
 	/* F1 · Clear Formatting
 	 * A rich-text toolbar button that strips inline formatting from the
 	 * selection (classic-editor parity; core dropped it). Registered as a
@@ -442,7 +503,8 @@
 						{ className: 'bes-sidebar' },
 						el( AccentPicker ),
 						el( WordCountPanel ),
-						el( FindReplacePanel )
+						el( FindReplacePanel ),
+						el( AutosavePanel )
 					)
 				)
 			);
