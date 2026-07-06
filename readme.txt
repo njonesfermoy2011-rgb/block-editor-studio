@@ -3,7 +3,7 @@ Contributors: njones35
 Tags: gutenberg, block editor, find and replace, editor, writing
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.8.1
+Stable tag: 0.8.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,6 +82,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 
 == Changelog ==
 
+= 0.8.2 =
+* Housekeeping: renamed the plugin's internal PHP constants and functions to a longer, more distinct prefix, following WordPress.org naming guidelines. No functional changes.
+
 = 0.8.1 =
 * Fixed: a script dependency typo prevented the editor enhancements from loading. All features now load correctly.
 
@@ -115,6 +118,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.8.2 =
+Internal housekeeping only — no functional changes.
 
 = 0.8.1 =
 Fixes a loading issue so all editor enhancements work. Recommended for everyone.
