@@ -1,0 +1,36 @@
+[type.po]
+extend-glob = ["*.po"]
+check-file = false
+
+[type.pot]
+extend-glob = ["*.pot"]
+check-file = false
+
+[type.map]
+extend-glob = ["*.map"]
+check-file = false
+
+[type.js]
+extend-glob = ["*.min.js"]
+check-file = false
+
+[type.json]
+extend-glob = ["*.json"]
+check-file = false
+
+[type.xml]
+extend-glob = ["*.xml"]
+check-file = false
+
+[default.extend-words]
+struc = "struc"
+wheres = "wheres"
+PN = "PN"
+# This is used for the Faroese locale. It is not a typo.
+fo = "fo"
+# This is used for Bosnia and Herzegovina.
+BA = "BA"
+copie = "copie"
+# This is used in a regex. It is not intended to be "miss" or "mist".
+mis = "mis"
+ue = "ue"
