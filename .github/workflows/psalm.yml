@@ -1,0 +1,19 @@
+on:
+  # Trigger the workflow on pull request,
+  pull_request:
+    types: [ opened, labeled, synchronize ]
+
+name: Psalm Code Analysis
+jobs:
+  psalm:
+    if: contains(github.event.pull_request.labels.*.name, 'run analysis')
+    name: Psalm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.5.0
+
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions
+        with:
+          composer_require_dev: true

@@ -1,0 +1,32 @@
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened, labeled, synchronize ]
+
+name: Inspections
+jobs:
+  runPHPCSInspection:
+    if: contains(github.event.pull_request.labels.*.name, 'run analysis')
+    name: Run PHPCS inspection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      - name: Clone Formidable Lite
+        run: git clone --depth=1 https://github.com/Strategy11/formidable-forms.git ../formidable
+
+      - name: Install dependencies
+        run: composer install --dev --prefer-dist --no-progress
+
+      - name: Configure PHPCS with Lite sniffs
+        run: |
+          ln -s $(realpath ../formidable/phpcs-sniffs) ../formidable/Formidable
+          CURRENT_PATHS=$(./vendor/bin/phpcs --config-show | grep 'installed_paths' | cut -d' ' -f2)
+          ./vendor/bin/phpcs --config-set installed_paths "$CURRENT_PATHS,$(realpath ../formidable/phpcs-sniffs)"
+
+      - name: PHPCS check
+        run: ./vendor/bin/phpcs --parallel=10 ./
