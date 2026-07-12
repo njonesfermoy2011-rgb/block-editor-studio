@@ -1,0 +1,14 @@
+# Files and directories that must NOT ship to the WordPress.org SVN trunk.
+# Everything not listed here is copied to trunk as-is.
+/.git
+/.github
+/.gitignore
+/.distignore
+/.wordpress-org
+/dist
+/PLAN.md
+/node_modules
+*.zip
+*.log
+.DS_Store
+Thumbs.db

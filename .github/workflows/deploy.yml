@@ -1,0 +1,27 @@
+name: Deploy to WordPress.org
+
+# Publishes a new release to the WordPress.org plugin directory.
+# Trigger: push a bare version tag that matches the readme "Stable tag",
+# e.g.  git tag 0.8.2 && git push origin 0.8.2
+# The action copies the plugin (minus .distignore paths) to SVN trunk,
+# creates tags/<tag>, and uploads assets from .wordpress-org/.
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  deploy:
+    name: New release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: block-editor-studio
