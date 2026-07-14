@@ -3,7 +3,7 @@
  * Plugin Name:       Block Editor Studio
  * Plugin URI:        https://github.com/njonesfermoy2011-rgb/block-editor-studio
  * Description:       A calmer, cleaner experience for the WordPress block editor. Lightweight UI/UX enhancements that make Gutenberg beautiful and intuitive — without replacing it, forking it, or becoming a page builder.
- * Version:           0.8.3
+ * Version:           0.8.4
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Nathanael Jones
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BESTUDIO_VERSION', '0.8.3' );
+define( 'BESTUDIO_VERSION', '0.8.4' );
 define( 'BESTUDIO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'BESTUDIO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -38,7 +38,7 @@ function bestudio_enqueue_editor_assets() {
 	wp_enqueue_script(
 		'block-editor-studio',
 		BESTUDIO_PLUGIN_URL . 'assets/js/editor.js',
-		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-data', 'wp-blocks', 'wp-notices', 'wp-rich-text', 'wp-block-editor', 'wp-wordcount', 'wp-components', 'heartbeat' ),
+		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-data', 'wp-blocks', 'wp-notices', 'wp-rich-text', 'wp-block-editor', 'wp-wordcount', 'wp-components', 'wp-keyboard-shortcuts', 'heartbeat' ),
 		BESTUDIO_VERSION,
 		true
 	);

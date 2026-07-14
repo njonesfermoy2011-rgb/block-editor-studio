@@ -29,6 +29,7 @@
 	var components = wp.components || {};
 	var registerFormatType = wp.richText && wp.richText.registerFormatType;
 	var RichTextToolbarButton = wp.blockEditor && wp.blockEditor.RichTextToolbarButton;
+	var useShortcut = wp.keyboardShortcuts && wp.keyboardShortcuts.useShortcut;
 
 	// PluginSidebar moved from wp.editPost to wp.editor in WP 6.6+.
 	// Prefer the newer home, fall back for 6.5.
@@ -470,6 +471,98 @@
 		} );
 	}
 
+	/* F5b · Keyboard shortcut — open Find & Replace
+	 * Ctrl/Cmd+F and Ctrl/Cmd+Shift+F open the Block Editor Studio sidebar
+	 * and focus the Find field. Registered through the editor's own
+	 * keyboard-shortcuts store, so it works while typing in the canvas
+	 * iframe and shows up in the Keyboard Shortcuts help modal. Ctrl+F's
+	 * native browser find is intentionally overridden inside the editor. */
+	var FR_SHORTCUT = 'block-editor-studio/find-replace';
+	var FR_SIDEBAR = 'block-editor-studio/block-editor-studio';
+
+	function openBesSidebar() {
+		// The action lives on core/edit-post (6.5+) — fall back across the
+		// stores that have hosted it, then to the interface store directly.
+		var stores = [ 'core/edit-post', 'core/editor' ];
+		for ( var i = 0; i < stores.length; i++ ) {
+			try {
+				var d = wp.data.dispatch( stores[ i ] );
+				if ( d && typeof d.openGeneralSidebar === 'function' ) {
+					d.openGeneralSidebar( FR_SIDEBAR );
+					return;
+				}
+			} catch ( e ) {}
+		}
+		try {
+			var iface = wp.data.dispatch( 'core/interface' );
+			if ( iface && typeof iface.enableComplementaryArea === 'function' ) {
+				iface.enableComplementaryArea( 'core/edit-post', FR_SIDEBAR );
+			}
+		} catch ( e ) {}
+	}
+
+	// The sidebar renders asynchronously after it opens; poll briefly for
+	// the Find input, then focus and select it.
+	function focusFindSoon( attempts ) {
+		attempts = attempts || 0;
+		var root = document.querySelector( '.bes-findreplace' );
+		var input = root && root.querySelector( 'input' );
+		if ( input ) {
+			try {
+				input.focus();
+				if ( typeof input.select === 'function' ) {
+					input.select();
+				}
+			} catch ( e ) {}
+			return;
+		}
+		if ( attempts < 20 ) {
+			window.setTimeout( function () {
+				focusFindSoon( attempts + 1 );
+			}, 50 );
+		}
+	}
+
+	function openFindReplace( event ) {
+		if ( event && typeof event.preventDefault === 'function' ) {
+			event.preventDefault();
+		}
+		openBesSidebar();
+		focusFindSoon( 0 );
+	}
+
+	function registerFindShortcut() {
+		var d = wp.data && wp.data.dispatch( 'core/keyboard-shortcuts' );
+		var s = wp.data && wp.data.select( 'core/keyboard-shortcuts' );
+		if ( ! d || typeof d.registerShortcut !== 'function' ) {
+			return;
+		}
+		// Don't double-register if the script re-runs across editor remounts.
+		if (
+			s &&
+			typeof s.getShortcutKeyCombo === 'function' &&
+			s.getShortcutKeyCombo( FR_SHORTCUT )
+		) {
+			return;
+		}
+		d.registerShortcut( {
+			name: FR_SHORTCUT,
+			category: 'global',
+			description: __( 'Open Block Editor Studio Find & Replace', 'block-editor-studio' ),
+			keyCombo: { modifier: 'primary', character: 'f' },
+			aliases: [ { modifier: 'primaryShift', character: 'f' } ]
+		} );
+	}
+
+	registerFindShortcut();
+
+	// Renders nothing; exists only to bind the shortcut within the editor's
+	// ShortcutProvider. Mounted (below) only when useShortcut is available.
+	function ShortcutHandler() {
+		useShortcut( FR_SHORTCUT, openFindReplace );
+		return null;
+	}
+
 	var icon = el(
 		'svg',
 		{ width: 24, height: 24, viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false' },
@@ -484,6 +577,7 @@
 			return el(
 				Fragment,
 				null,
+				useShortcut ? el( ShortcutHandler ) : null,
 				PluginSidebarMoreMenuItem
 					? el(
 							PluginSidebarMoreMenuItem,
