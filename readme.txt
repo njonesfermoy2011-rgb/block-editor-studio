@@ -83,7 +83,7 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 == Changelog ==
 
 = 0.8.4 =
-* New: keyboard shortcut — press Ctrl/Cmd+F or Ctrl/Cmd+Shift+F in the editor to open Find & Replace with the search field focused. (Shown in the editor's Keyboard Shortcuts help.)
+* New: keyboard shortcut — press Ctrl/Cmd+Shift+F in the editor to open Find & Replace with the search field focused. (Shown in the editor's Keyboard Shortcuts help.)
 
 = 0.8.3 =
 * Improved: more comfortable spacing in the Find & Replace panel — the "Replace with" field and the "Match case" checkbox now have room to breathe.
@@ -126,7 +126,7 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 == Upgrade Notice ==
 
 = 0.8.4 =
-Adds Ctrl/Cmd+F and Ctrl/Cmd+Shift+F shortcuts to open Find & Replace.
+Adds a Ctrl/Cmd+Shift+F shortcut to open Find & Replace.
 
 = 0.8.3 =
 Minor spacing polish in the Find & Replace panel.

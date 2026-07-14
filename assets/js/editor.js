@@ -472,11 +472,12 @@
 	}
 
 	/* F5b · Keyboard shortcut — open Find & Replace
-	 * Ctrl/Cmd+F and Ctrl/Cmd+Shift+F open the Block Editor Studio sidebar
-	 * and focus the Find field. Registered through the editor's own
-	 * keyboard-shortcuts store, so it works while typing in the canvas
-	 * iframe and shows up in the Keyboard Shortcuts help modal. Ctrl+F's
-	 * native browser find is intentionally overridden inside the editor. */
+	 * Ctrl/Cmd+Shift+F opens the Block Editor Studio sidebar and focuses the
+	 * Find field. Registered through the editor's own keyboard-shortcuts
+	 * store, so it works while typing in the canvas iframe and appears in the
+	 * Keyboard Shortcuts help modal. (WordPress reserves Ctrl/Cmd+F for the
+	 * browser's native find and refuses to register it, so we use the
+	 * standard "find & replace" combo, Ctrl/Cmd+Shift+F.) */
 	var FR_SHORTCUT = 'block-editor-studio/find-replace';
 	var FR_SIDEBAR = 'block-editor-studio/block-editor-studio';
 
@@ -549,8 +550,7 @@
 			name: FR_SHORTCUT,
 			category: 'global',
 			description: __( 'Open Block Editor Studio Find & Replace', 'block-editor-studio' ),
-			keyCombo: { modifier: 'primary', character: 'f' },
-			aliases: [ { modifier: 'primaryShift', character: 'f' } ]
+			keyCombo: { modifier: 'primaryShift', character: 'f' }
 		} );
 	}
 
