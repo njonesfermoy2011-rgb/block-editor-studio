@@ -344,6 +344,14 @@ body.bes-accent-slate {
 	color: var(--bes-accent);
 }
 
+/* The Find/Replace fields and the Match case checkbox opt out of the
+   default component margin (__nextHasNoMarginBottom), which leaves them
+   flush against each other. Restore a comfortable vertical rhythm so the
+   "Replace with" label and the "Match case" checkbox each get breathing room. */
+.bes-findreplace .components-base-control {
+	margin-bottom: 16px;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	.bes-accent-swatch {
 		transition: none;

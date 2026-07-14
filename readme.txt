@@ -3,7 +3,7 @@ Contributors: njones35
 Tags: gutenberg, block editor, find and replace, editor, writing
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.8.2
+Stable tag: 0.8.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,6 +82,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 
 == Changelog ==
 
+= 0.8.3 =
+* Improved: more comfortable spacing in the Find & Replace panel — the "Replace with" field and the "Match case" checkbox now have room to breathe.
+
 = 0.8.2 =
 * Housekeeping: renamed the plugin's internal PHP constants and functions to a longer, more distinct prefix, following WordPress.org naming guidelines. No functional changes.
 
@@ -118,6 +121,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 * Initial release.
 
 == Upgrade Notice ==
+
+= 0.8.3 =
+Minor spacing polish in the Find & Replace panel.
 
 = 0.8.2 =
 Internal housekeeping only — no functional changes.
