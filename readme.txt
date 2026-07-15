@@ -1,4 +1,4 @@
-=== Block Editor Studio ===
+=== Writing Tools for the Block Editor ===
 Contributors: njones35
 Tags: gutenberg, block editor, find and replace, editor, writing
 Requires at least: 6.5
@@ -12,9 +12,9 @@ A calmer, cleaner WordPress block editor — with Find & Replace, undo-on-delete
 
 == Description ==
 
-Block Editor Studio makes the WordPress block editor (Gutenberg) calmer, cleaner, and genuinely easier to use — and adds the everyday tools writers and editors keep wishing it had.
+Writing Tools for the Block Editor makes Gutenberg calmer, cleaner, and genuinely easier to use — and adds the everyday tools writers and editors keep wishing it had.
 
-Gutenberg is powerful, but its interface can feel busy and unforgiving. Block Editor Studio is a lightweight skin and toolkit that smooths the rough edges — without replacing the editor, forking it, or turning it into a page builder.
+Gutenberg is powerful, but its interface can feel busy and unforgiving. This is a lightweight skin and toolkit that smooths the rough edges — without replacing the editor, forking it, or turning it into a page builder.
 
 = Editing tools you'll use every day =
 
@@ -40,9 +40,9 @@ No settings page to wrestle with, and no bloat. Just a better editing experience
 
 == Installation ==
 
-1. In your WordPress admin, go to Plugins → Add New Plugin and search for "Block Editor Studio", or upload the plugin ZIP via Plugins → Add New Plugin → Upload Plugin.
+1. In your WordPress admin, go to Plugins → Add New Plugin and search for "Writing Tools for the Block Editor", or upload the plugin ZIP via Plugins → Add New Plugin → Upload Plugin.
 2. Activate the plugin through the Plugins screen.
-3. Open any post or page in the block editor — the improvements are applied automatically. Open the Block Editor Studio panel from the editor's top-right toolbar for Find & Replace, word count, the accent picker, and performance options.
+3. Open any post or page in the block editor — the improvements are applied automatically. Open the Writing Tools panel from the editor's top-right toolbar for Find & Replace, word count, the accent picker, and performance options.
 
 No configuration required.
 
@@ -50,11 +50,11 @@ No configuration required.
 
 = Does the WordPress block editor have find and replace? =
 
-Not on its own. Block Editor Studio adds a Find & Replace panel to the editor sidebar — search your whole post, see a live match count, and replace across every block at once. Links, markup, and code blocks are left untouched.
+Not on its own. Writing Tools for the Block Editor adds a Find & Replace panel to the editor sidebar — search your whole post, see a live match count, and replace across every block at once. Links, markup, and code blocks are left untouched.
 
 = Does this slow down my website? =
 
-No. Block Editor Studio loads only inside the WordPress admin block editor. It adds nothing to your live site's pages and has zero impact on front-end performance.
+No. It loads only inside the WordPress admin block editor. It adds nothing to your live site's pages and has zero impact on front-end performance.
 
 = Will it change or break my existing content? =
 
@@ -77,7 +77,7 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 1. A calmer, cleaner block editor with your chosen accent colour.
 2. Find & Replace — search and replace across every block, with a live match count.
 3. Undo on delete — accidental block deletions are one click away from recovery.
-4. The Block Editor Studio panel: accent picker, word count, Find & Replace, and performance options.
+4. The Writing Tools panel: accent picker, word count, Find & Replace, and performance options.
 5. An always-visible "Add block" button and a tidier List View.
 
 == Changelog ==
@@ -98,14 +98,14 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 * New: a "Reduce autosave frequency" toggle that slows background saving and checks, easing typing hitches on slower sites.
 
 = 0.7.0 =
-* New: Find & Replace. Search the post's text and replace across all blocks from the Block Editor Studio panel, with a live match count and an optional case-sensitive match. Links, markup and code blocks are left untouched.
+* New: Find & Replace. Search the post's text and replace across all blocks from the Writing Tools panel, with a live match count and an optional case-sensitive match. Links, markup and code blocks are left untouched.
 
 = 0.6.0 =
 * New: removing a block now shows a brief "block removed — Undo" message, so accidental deletions are easy to recover. It stays quiet when you simply press Ctrl/Cmd+Z.
 
 = 0.5.0 =
 * New: a one-click Clear Formatting button in the text toolbar to strip inline formatting from a selection.
-* New: a live word and character count for the selected block in the Block Editor Studio panel.
+* New: a live word and character count for the selected block in the Writing Tools panel.
 
 = 0.4.0 =
 * New: a one-time tip teaches arrow-key navigation between blocks (dismissable).

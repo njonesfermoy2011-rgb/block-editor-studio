@@ -1,5 +1,5 @@
 /**
- * Block Editor Studio — Editor Styles
+ * Writing Tools for the Block Editor — Editor Styles
  *
  * Loaded exclusively via enqueue_block_editor_assets.
  * Styles the editor CHROME (header, sidebar, toolbar, inserter, list view)
@@ -244,7 +244,7 @@ body.bes-accent-slate {
 
 /* ============================================================
    Accent picker (in-editor evaluation control)
-   Lives in the Block Editor Studio sidebar registered by editor.js.
+   Lives in the Writing Tools sidebar registered by editor.js.
    ============================================================ */
 .bes-sidebar {
 	padding: 16px;

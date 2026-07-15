@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Block Editor Studio
+ * Plugin Name:       Writing Tools for the Block Editor
  * Plugin URI:        https://github.com/njonesfermoy2011-rgb/block-editor-studio
  * Description:       A calmer, cleaner experience for the WordPress block editor. Lightweight UI/UX enhancements that make Gutenberg beautiful and intuitive — without replacing it, forking it, or becoming a page builder.
  * Version:           0.8.4
@@ -10,7 +10,7 @@
  * Author URI:        https://strategy11.com
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       block-editor-studio
+ * Text Domain:       writing-tools-for-block-editor
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -29,21 +29,21 @@ add_action( 'enqueue_block_editor_assets', 'bestudio_enqueue_editor_assets' );
 
 function bestudio_enqueue_editor_assets() {
 	wp_enqueue_style(
-		'block-editor-studio',
+		'writing-tools-for-block-editor',
 		BESTUDIO_PLUGIN_URL . 'assets/css/editor.css',
 		array(),
 		BESTUDIO_VERSION
 	);
 
 	wp_enqueue_script(
-		'block-editor-studio',
+		'writing-tools-for-block-editor',
 		BESTUDIO_PLUGIN_URL . 'assets/js/editor.js',
 		array( 'wp-plugins', 'wp-editor', 'wp-edit-post', 'wp-element', 'wp-i18n', 'wp-data', 'wp-blocks', 'wp-notices', 'wp-rich-text', 'wp-block-editor', 'wp-wordcount', 'wp-components', 'wp-keyboard-shortcuts', 'heartbeat' ),
 		BESTUDIO_VERSION,
 		true
 	);
 
-	wp_set_script_translations( 'block-editor-studio', 'block-editor-studio' );
+	wp_set_script_translations( 'writing-tools-for-block-editor', 'writing-tools-for-block-editor' );
 }
 
 /**
@@ -59,7 +59,7 @@ function bestudio_enqueue_canvas_assets() {
 	}
 
 	wp_enqueue_style(
-		'block-editor-studio-canvas',
+		'writing-tools-for-block-editor-canvas',
 		BESTUDIO_PLUGIN_URL . 'assets/css/canvas.css',
 		array(),
 		BESTUDIO_VERSION
@@ -83,7 +83,7 @@ function bestudio_admin_body_class( $classes ) {
 
 	$screen = get_current_screen();
 	if ( $screen && method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() ) {
-		$classes .= ' block-editor-studio bes-accent-teal';
+		$classes .= ' writing-tools-for-block-editor bes-accent-teal';
 	}
 
 	return $classes;

@@ -1,5 +1,5 @@
 /**
- * Block Editor Studio — Canvas Styles
+ * Writing Tools for the Block Editor — Canvas Styles
  *
  * Injected INTO the editor content iframe via enqueue_block_assets
  * (gated to is_admin() so it never loads on the front end).

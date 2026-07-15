@@ -1,11 +1,11 @@
 /**
- * Block Editor Studio — Editor Script
+ * Writing Tools for the Block Editor — Editor Script
  *
  * Loaded exclusively via enqueue_block_editor_assets.
  * No build step: plain JS via wp.element.createElement so the source
  * stays transparent for review. Nothing here affects the front end.
  *
- * Registers the Block Editor Studio sidebar, currently holding the
+ * Registers the Writing Tools sidebar, currently holding the
  * accent picker — a pre-release evaluation control. The chosen accent
  * is saved to this browser (localStorage); per-user server-side
  * persistence is intentionally deferred until the feature is confirmed.
@@ -44,9 +44,9 @@
 	}
 
 	var ACCENTS = [
-		{ key: 'teal', label: __( 'Calm Teal', 'block-editor-studio' ), hex: '#2d6e7e' },
-		{ key: 'sage', label: __( 'Sage', 'block-editor-studio' ), hex: '#3d7a6a' },
-		{ key: 'slate', label: __( 'Slate Blue', 'block-editor-studio' ), hex: '#3a5a8c' }
+		{ key: 'teal', label: __( 'Calm Teal', 'writing-tools-for-block-editor' ), hex: '#2d6e7e' },
+		{ key: 'sage', label: __( 'Sage', 'writing-tools-for-block-editor' ), hex: '#3d7a6a' },
+		{ key: 'slate', label: __( 'Slate Blue', 'writing-tools-for-block-editor' ), hex: '#3a5a8c' }
 	];
 	var STORAGE_KEY = 'blockEditorStudioAccent';
 	var DEFAULT = 'teal';
@@ -99,7 +99,7 @@
 			el(
 				'p',
 				{ className: 'bes-accent-picker__hint' },
-				__( 'Choose the editor accent colour. Saved to this browser.', 'block-editor-studio' )
+				__( 'Choose the editor accent colour. Saved to this browser.', 'writing-tools-for-block-editor' )
 			),
 			el(
 				'div',
@@ -154,18 +154,18 @@
 
 		var body;
 		if ( data.count === 0 ) {
-			body = __( 'Select a block to see its word count.', 'block-editor-studio' );
+			body = __( 'Select a block to see its word count.', 'writing-tools-for-block-editor' );
 		} else {
 			body =
-				sprintf( _n( '%d word', '%d words', words, 'block-editor-studio' ), words ) +
+				sprintf( _n( '%d word', '%d words', words, 'writing-tools-for-block-editor' ), words ) +
 				'  ·  ' +
-				sprintf( _n( '%d character', '%d characters', chars, 'block-editor-studio' ), chars );
+				sprintf( _n( '%d character', '%d characters', chars, 'writing-tools-for-block-editor' ), chars );
 		}
 
 		return el(
 			'div',
 			{ className: 'bes-wordcount' },
-			el( 'h3', { className: 'bes-section-title' }, __( 'Word count', 'block-editor-studio' ) ),
+			el( 'h3', { className: 'bes-section-title' }, __( 'Word count', 'writing-tools-for-block-editor' ) ),
 			el( 'p', { className: 'bes-wordcount__value' }, body )
 		);
 	}
@@ -324,8 +324,8 @@
 			} catch ( e ) {}
 			setStatus(
 				n > 0
-					? sprintf( _n( 'Replaced %d match.', 'Replaced %d matches.', n, 'block-editor-studio' ), n )
-					: __( 'No matches found.', 'block-editor-studio' )
+					? sprintf( _n( 'Replaced %d match.', 'Replaced %d matches.', n, 'writing-tools-for-block-editor' ), n )
+					: __( 'No matches found.', 'writing-tools-for-block-editor' )
 			);
 			setMatchInfo( 0 );
 		}
@@ -334,28 +334,28 @@
 			matchInfo === null
 				? ''
 				: matchInfo === 0
-				? __( 'No matches', 'block-editor-studio' )
-				: sprintf( _n( '%d match', '%d matches', matchInfo, 'block-editor-studio' ), matchInfo );
+				? __( 'No matches', 'writing-tools-for-block-editor' )
+				: sprintf( _n( '%d match', '%d matches', matchInfo, 'writing-tools-for-block-editor' ), matchInfo );
 
 		return el(
 			'div',
 			{ className: 'bes-findreplace' },
-			el( 'h3', { className: 'bes-section-title' }, __( 'Find & Replace', 'block-editor-studio' ) ),
+			el( 'h3', { className: 'bes-section-title' }, __( 'Find & Replace', 'writing-tools-for-block-editor' ) ),
 			el( components.TextControl, {
-				label: __( 'Find', 'block-editor-studio' ),
+				label: __( 'Find', 'writing-tools-for-block-editor' ),
 				value: search,
 				onChange: setSearch,
 				__nextHasNoMarginBottom: true
 			} ),
 			el( components.TextControl, {
-				label: __( 'Replace with', 'block-editor-studio' ),
+				label: __( 'Replace with', 'writing-tools-for-block-editor' ),
 				value: replacement,
 				onChange: setReplacement,
 				__nextHasNoMarginBottom: true
 			} ),
 			components.CheckboxControl
 				? el( components.CheckboxControl, {
-						label: __( 'Match case', 'block-editor-studio' ),
+						label: __( 'Match case', 'writing-tools-for-block-editor' ),
 						checked: matchCase,
 						onChange: setMatchCase,
 						__nextHasNoMarginBottom: true
@@ -370,7 +370,7 @@
 					disabled: ! search || matchInfo === 0,
 					__next40pxDefaultSize: true
 				},
-				__( 'Replace all', 'block-editor-studio' )
+				__( 'Replace all', 'writing-tools-for-block-editor' )
 			),
 			status
 				? el( 'p', { className: 'bes-findreplace__status', 'aria-live': 'polite' }, status )
@@ -425,12 +425,12 @@
 		return el(
 			'div',
 			{ className: 'bes-autosave' },
-			el( 'h3', { className: 'bes-section-title' }, __( 'Performance', 'block-editor-studio' ) ),
+			el( 'h3', { className: 'bes-section-title' }, __( 'Performance', 'writing-tools-for-block-editor' ) ),
 			el( components.ToggleControl, {
-				label: __( 'Reduce autosave frequency', 'block-editor-studio' ),
+				label: __( 'Reduce autosave frequency', 'writing-tools-for-block-editor' ),
 				help: __(
 					'Slows background saving and checks to reduce typing hitches on slower sites.',
-					'block-editor-studio'
+					'writing-tools-for-block-editor'
 				),
 				checked: slow,
 				onChange: onChange,
@@ -445,15 +445,15 @@
 	 * format type purely to host the toolbar button and receive the
 	 * rich-text value/onChange — it never applies a format of its own. */
 	if ( registerFormatType && RichTextToolbarButton ) {
-		registerFormatType( 'block-editor-studio/clear-formatting', {
-			title: __( 'Clear formatting', 'block-editor-studio' ),
+		registerFormatType( 'writing-tools-for-block-editor/clear-formatting', {
+			title: __( 'Clear formatting', 'writing-tools-for-block-editor' ),
 			tagName: 'span',
 			className: 'bes-clear-formatting-noop',
 			edit: function ( props ) {
 				var value = props.value;
 				return el( RichTextToolbarButton, {
 					icon: 'editor-removeformatting',
-					title: __( 'Clear formatting', 'block-editor-studio' ),
+					title: __( 'Clear formatting', 'writing-tools-for-block-editor' ),
 					onClick: function () {
 						var collapsed = value.start === value.end;
 						var from = collapsed ? 0 : value.start;
@@ -472,14 +472,14 @@
 	}
 
 	/* F5b · Keyboard shortcut — open Find & Replace
-	 * Ctrl/Cmd+Shift+F opens the Block Editor Studio sidebar and focuses the
+	 * Ctrl/Cmd+Shift+F opens the Writing Tools sidebar and focuses the
 	 * Find field. Registered through the editor's own keyboard-shortcuts
 	 * store, so it works while typing in the canvas iframe and appears in the
 	 * Keyboard Shortcuts help modal. (WordPress reserves Ctrl/Cmd+F for the
 	 * browser's native find and refuses to register it, so we use the
 	 * standard "find & replace" combo, Ctrl/Cmd+Shift+F.) */
-	var FR_SHORTCUT = 'block-editor-studio/find-replace';
-	var FR_SIDEBAR = 'block-editor-studio/block-editor-studio';
+	var FR_SHORTCUT = 'writing-tools-for-block-editor/find-replace';
+	var FR_SIDEBAR = 'writing-tools-for-block-editor/writing-tools-for-block-editor';
 
 	function openBesSidebar() {
 		// The action lives on core/edit-post (6.5+) — fall back across the
@@ -549,7 +549,7 @@
 		d.registerShortcut( {
 			name: FR_SHORTCUT,
 			category: 'global',
-			description: __( 'Open Block Editor Studio Find & Replace', 'block-editor-studio' ),
+			description: __( 'Open Find & Replace (Writing Tools)', 'writing-tools-for-block-editor' ),
 			keyCombo: { modifier: 'primaryShift', character: 'f' }
 		} );
 	}
@@ -571,7 +571,7 @@
 		el( 'circle', { cx: 16, cy: 15.5, r: 3.2, fill: 'currentColor', opacity: 0.3 } )
 	);
 
-	registerPlugin( 'block-editor-studio', {
+	registerPlugin( 'writing-tools-for-block-editor', {
 		icon: icon,
 		render: function () {
 			return el(
@@ -581,15 +581,15 @@
 				PluginSidebarMoreMenuItem
 					? el(
 							PluginSidebarMoreMenuItem,
-							{ target: 'block-editor-studio', icon: icon },
-							__( 'Block Editor Studio', 'block-editor-studio' )
+							{ target: 'writing-tools-for-block-editor', icon: icon },
+							__( 'Writing Tools', 'writing-tools-for-block-editor' )
 					  )
 					: null,
 				el(
 					PluginSidebar,
 					{
-						name: 'block-editor-studio',
-						title: __( 'Block Editor Studio', 'block-editor-studio' ),
+						name: 'writing-tools-for-block-editor',
+						title: __( 'Writing Tools', 'writing-tools-for-block-editor' ),
 						icon: icon
 					},
 					el(
@@ -666,7 +666,7 @@
 		btn.type = 'button';
 		btn.id = 'bes-add-block';
 		btn.className = 'bes-add-block';
-		btn.setAttribute( 'aria-label', __( 'Add block', 'block-editor-studio' ) );
+		btn.setAttribute( 'aria-label', __( 'Add block', 'writing-tools-for-block-editor' ) );
 
 		// Static, safe markup for the plus icon (no user input).
 		btn.innerHTML =
@@ -676,7 +676,7 @@
 
 		var label = doc.createElement( 'span' );
 		label.className = 'bes-add-block__label';
-		label.textContent = __( 'Add block', 'block-editor-studio' );
+		label.textContent = __( 'Add block', 'writing-tools-for-block-editor' );
 		btn.appendChild( label );
 
 		btn.addEventListener( 'click', insertParagraphAtEnd );
@@ -740,7 +740,7 @@
 	 * so this also helps non-sighted users.
 	 * ============================================================ */
 	var HINT_KEY = 'blockEditorStudioArrowHintDismissed';
-	var HINT_NOTICE_ID = 'block-editor-studio/arrow-key-hint';
+	var HINT_NOTICE_ID = 'writing-tools-for-block-editor/arrow-key-hint';
 
 	function maybeShowArrowKeyHint() {
 		try {
@@ -757,14 +757,14 @@
 		notices.createInfoNotice(
 			__(
 				'Tip: use the ↑ and ↓ arrow keys to move between blocks. Press Esc to select a block, then Tab to step through them.',
-				'block-editor-studio'
+				'writing-tools-for-block-editor'
 			),
 			{
 				id: HINT_NOTICE_ID,
 				isDismissible: false,
 				actions: [
 					{
-						label: __( 'Got it', 'block-editor-studio' ),
+						label: __( 'Got it', 'writing-tools-for-block-editor' ),
 						onClick: function () {
 							try {
 								window.localStorage.setItem( HINT_KEY, '1' );
@@ -807,7 +807,7 @@
 			return;
 		}
 
-		var NOTICE_ID = 'block-editor-studio/block-removed';
+		var NOTICE_ID = 'writing-tools-for-block-editor/block-removed';
 		var prevCount = be.getGlobalBlockCount();
 		var cooling = false;
 
@@ -819,7 +819,7 @@
 			notices.createNotice(
 				'info',
 				sprintf(
-					_n( '%d block removed.', '%d blocks removed.', removed, 'block-editor-studio' ),
+					_n( '%d block removed.', '%d blocks removed.', removed, 'writing-tools-for-block-editor' ),
 					removed
 				),
 				{
@@ -828,7 +828,7 @@
 					isDismissible: true,
 					actions: [
 						{
-							label: __( 'Undo', 'block-editor-studio' ),
+							label: __( 'Undo', 'writing-tools-for-block-editor' ),
 							onClick: function () {
 								try {
 									wp.data.dispatch( 'core/editor' ).undo();
