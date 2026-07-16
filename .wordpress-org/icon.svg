@@ -1,5 +1,5 @@
-<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Block Editor Studio">
-  <title>Block Editor Studio</title>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Writing Tools for the Block Editor">
+  <title>Writing Tools for the Block Editor</title>
   <desc>A clean rounded tile showing a tidy stack of editor content blocks, the top block in the plugin's accent colour.</desc>
   <rect width="256" height="256" rx="58" fill="#f5f7f9"/>
   <rect x="1" y="1" width="254" height="254" rx="57" fill="none" stroke="#e2e6ec" stroke-width="2"/>

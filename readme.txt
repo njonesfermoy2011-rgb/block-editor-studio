@@ -3,7 +3,7 @@ Contributors: njones35
 Tags: gutenberg, block editor, find and replace, editor, writing
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 0.8.4
+Stable tag: 1.0.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -82,6 +82,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 
 == Changelog ==
 
+= 1.0.0 =
+* First public release on WordPress.org. Includes the calmer editor skin, Find & Replace, Clear Formatting, undo-on-delete, per-block word count, the accent picker, the reduce-autosave toggle, and the Ctrl/Cmd+Shift+F shortcut.
+
 = 0.8.4 =
 * New: keyboard shortcut — press Ctrl/Cmd+Shift+F in the editor to open Find & Replace with the search field focused. (Shown in the editor's Keyboard Shortcuts help.)
 
@@ -124,6 +127,9 @@ Yes. Because it works at the CSS/UI layer rather than replacing or forking Guten
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+First public release.
 
 = 0.8.4 =
 Adds a Ctrl/Cmd+Shift+F shortcut to open Find & Replace.
