@@ -8,6 +8,16 @@
 /dist
 /PLAN.md
 /node_modules
+/vendor
+/_typos.toml
+/composer.json
+/composer.lock
+/phpcs.xml
+/phpcs.xml.dist
+/phpstan.neon
+/.php-cs-fixer.dist.php
+/package.json
+/package-lock.json
 *.zip
 *.log
 .DS_Store
